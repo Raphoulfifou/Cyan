@@ -1,70 +1,45 @@
 package fr.raphoulfifou.cyan.config.options;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Modifier;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import fr.raphoulfifou.cyan.util.OpLevels;
 import net.fabricmc.loader.api.FabricLoader;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 public class CyanOptions
 {
-    public static final File DEFAULT_FILE_NAME = FabricLoader.getInstance().getConfigDir().resolve("cyan-options.json").toFile();
+    public static final String DEFAULT_FILE_NAME = "cyan-options.json";
 
     public final GeneralSettings generalSettings = new GeneralSettings();
+    public final CommandSettings commandSettings = new CommandSettings();
 
-    private File file;
-    private Options options;
+    private Path configPath;
+    private boolean readOnly;
 
     public static class GeneralSettings
     {
-
-        public boolean allowBed;
-        public boolean allowKgi;
-        public boolean allowSurface;
-
-        public int requiredOpLevelKgi;
-
-        CyanOptions options;
-
-        public GeneralSettings()
-        {
-            this.allowBed = true;
-            this.allowKgi = true;
-            this.allowSurface = true;
-
-            this.requiredOpLevelKgi = 4;
-        }
-
-        public boolean setAllowBed(boolean value)
-        {
-            return this.allowBed = value;
-        }
-
-        public boolean setAllowKgi(boolean value)
-        {
-            return this.allowKgi = value;
-        }
-
-        public boolean setAllowSurface(boolean value)
-        {
-            return this.allowSurface = value;
-        }
-
-        public int setRequiredOpLevelKgi(int value)
-        {
-            return this.requiredOpLevelKgi = value;
-        }
+        public boolean allowBed = true;
+        public boolean allowKgi = true;
+        public boolean allowSurface = true;
     }
 
-    public Options getOptions()
+    public static class CommandSettings
     {
+        public int distanceToEntitiesKgi = 14;
+        public int requiredOpLevelKgi = 4;
+    }
+
+    public static @NotNull CyanOptions defaults() {
+        var options = new CyanOptions();
+        options.configPath = getConfigPath(DEFAULT_FILE_NAME);
+
         return options;
     }
 
@@ -74,62 +49,79 @@ public class CyanOptions
             .excludeFieldsWithModifiers(Modifier.PRIVATE)
             .create();
 
-    public static CyanOptions load(File file)
+    public static @NotNull CyanOptions load() {
+        return load(DEFAULT_FILE_NAME);
+    }
+
+    public static @NotNull CyanOptions load(String fileName)
     {
+        Path path = getConfigPath(fileName);
         CyanOptions config;
 
-        if (file.exists()) {
-            try (FileReader reader = new FileReader(file)) {
+        if (Files.exists(path)) {
+            try (FileReader reader = new FileReader(path.toFile())) {
                 config = GSON.fromJson(reader, CyanOptions.class);
             } catch (IOException e) {
                 throw new RuntimeException("Could not parse config", e);
             }
-            if (config.options != null) {
-				if (config.options.replaceInvalidOptions(Options.DEFAULT)) {
-					config.writeChanges();
-				}
-			}
         } else {
             config = new CyanOptions();
         }
 
-        config.file = file;
-        config.writeChanges();
+        config.configPath = path;
+
+        try {
+            config.writeChanges();
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't update config file", e);
+        }
 
         return config;
     }
 
-    public void writeChanges()
-    {
-        File dir = this.file.getParentFile();
-
-        if (!dir.exists()) {
-            if (!dir.mkdirs()) {
-                throw new RuntimeException("Could not create parent directories");
-            }
-        } else if (!dir.isDirectory()) {
-            throw new RuntimeException("The parent file is not a directory");
-        }
-
-        try (FileWriter writer = new FileWriter(this.file)) {
-            GSON.toJson(this, writer);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not save configuration file", e);
-        }
+    private static @NotNull Path getConfigPath(String name) {
+        return FabricLoader.getInstance()
+                .getConfigDir()
+                .resolve(name);
     }
 
-    public static class Options {
-		public static final Options DEFAULT = new Options();
+    public void writeChanges() throws IOException
+    {
+        if (this.isReadOnly())
+        {
+            throw new IllegalStateException("Config file is read-only");
+        }
 
-		public OpLevels opLevels = OpLevels.OPMAX;
+        Path dir = this.configPath.getParent();
 
-		public boolean replaceInvalidOptions(Options options) {
-			boolean invalid = false;
-			if (opLevels == null) {
-				opLevels = options.opLevels;
-				invalid = true;
-			}
-			return invalid;
-		}
-	}
+        if (!Files.exists(dir)) {
+            Files.createDirectories(dir);
+        } else if (!Files.isDirectory(dir)) {
+            throw new IOException("Not a directory: " + dir);
+        }
+
+        // Use a temporary location next to the config's final destination
+        Path tempPath = this.configPath.resolveSibling(this.getFileName() + ".tmp");
+
+        // Write the file to our temporary location
+        Files.writeString(tempPath, GSON.toJson(this));
+
+        // Atomically replace the old config file (if it exists) with the temporary file
+        Files.move(tempPath, this.configPath, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public boolean isReadOnly()
+    {
+        return this.readOnly;
+    }
+
+    public void setReadOnly()
+    {
+        this.readOnly = true;
+    }
+
+    public String getFileName()
+    {
+        return this.configPath.getFileName().toString();
+    }
 }

@@ -3,14 +3,17 @@ package fr.raphoulfifou.cyan;
 import fr.raphoulfifou.cyan.commands.MiscellaneousCommands;
 import fr.raphoulfifou.cyan.commands.SetCommands;
 import fr.raphoulfifou.cyan.commands.TeleportationCommands;
-import fr.raphoulfifou.cyan.config.options.CyanOptions;
+import fr.raphoulfifou.cyan.config.CyanConfig;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-
+import net.fabricmc.loader.api.FabricLoader;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 /**
  * @since 0.0.1
@@ -22,13 +25,18 @@ public class CyanServerCore implements DedicatedServerModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MODID);
     public static final String SERVERMODNAME = "[CyanServer]";
 
-    private static CyanOptions CONFIG;
-
     @Override
-    // Initialize the differents instances (here commands) when lauched on server
+    // Initialize the differents parts of the mod when lauched on server
     public void onInitializeServer()
     {
-        loadConfig();
+        CyanConfig cyanConfig = new CyanConfig(FabricLoader.getInstance().getConfigDir().resolve("cyan-options.properties"));
+
+        try {
+            cyanConfig.initialize();
+        } catch (IOException e) {
+            LOGGER.error("Failed to initialize Cyan configuration, default values will be used instead");
+            LOGGER.catching(Level.ERROR, e);
+        }
 
         // Register all the commands
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
@@ -39,17 +47,5 @@ public class CyanServerCore implements DedicatedServerModInitializer {
         });
         CyanServerCore.LOGGER.info("{} Successfully initialized commands", SERVERMODNAME);
         CyanServerCore.LOGGER.info("{} Successfully completed initialization", SERVERMODNAME);
-    }
-
-    public static CyanOptions getOptions() {
-        if (CONFIG == null) {
-            CONFIG = loadConfig();
-        }
-
-        return CONFIG;
-    }
-
-    private static CyanOptions loadConfig() {
-        return CyanOptions.load(CyanOptions.DEFAULT_FILE_NAME);
     }
 }

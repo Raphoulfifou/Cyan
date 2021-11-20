@@ -1,11 +1,7 @@
 package fr.raphoulfifou.cyan.config;
 
-import java.util.Locale;
-
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-
 import fr.raphoulfifou.cyan.config.options.CyanOptions;
-import fr.raphoulfifou.cyan.util.OpLevels;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -15,15 +11,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.TranslatableText;
 
+import java.io.IOException;
+
 @Environment(EnvType.CLIENT)
 public class ClothConfigScreenFactory implements ConfigScreenFactory<Screen>
 {
-	private CyanOptions config;
-	//private CyanOptions.GeneralSettings generalSettings;
+	private final CyanOptions config;
+	private final CyanOptions.GeneralSettings generalSettings = new CyanOptions.GeneralSettings();
 
-	public ClothConfigScreenFactory(CyanOptions config)
+	public ClothConfigScreenFactory(CyanOptions configArg)
 	{
-		this.config = config;
+		this.config = configArg;
 	}
 
 	@Override
@@ -38,7 +36,7 @@ public class ClothConfigScreenFactory implements ConfigScreenFactory<Screen>
 		ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
 		ConfigCategory general = builder.getOrCreateCategory(new TranslatableText("category.cyan.general"));
-		/*general.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("options.cyan.allowBed"), generalSettings.allowBed)
+		general.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("options.cyan.allowBed"), generalSettings.allowBed)
 				.setTooltip(new TranslatableText("mm.msg.allowBed"))
 				.setDefaultValue(generalSettings.allowBed)
 				.setSaveConsumer((value) -> {
@@ -47,20 +45,6 @@ public class ClothConfigScreenFactory implements ConfigScreenFactory<Screen>
 					}
 					generalSettings.allowBed = value;
 				})
-				.build());*/
-
-		general.addEntry(entryBuilder.startEnumSelector(new TranslatableText("options.cyan.required_op_level_kgi"), OpLevels.class, config.getOptions().opLevels)
-				//.setTooltip(new TranslatableText("mm.msg.required_op_level_kgi"))
-				.setSaveConsumer((value) -> {
-					if (config.getOptions().opLevels != value) {
-						savingRunnable.reloadResources = true;
-					}
-					config.getOptions().opLevels = value;
-				})
-				.setEnumNameProvider((value) -> {
-					return new TranslatableText("option.cyan.opLevels." + value.name().toLowerCase(Locale.ROOT));
-				})
-				.setDefaultValue(CyanOptions.Options.DEFAULT.opLevels)
 				.build());
 
 		return builder.build();
@@ -71,9 +55,15 @@ public class ClothConfigScreenFactory implements ConfigScreenFactory<Screen>
 		public boolean reloadResources = false;
 
 		@Override
-		public void run() {
-			config.writeChanges();
-			if (reloadResources) {
+		public void run()
+		{
+			try {
+				config.writeChanges();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (reloadResources)
+			{
 				MinecraftClient.getInstance().reloadResources();
 			}
 			reloadResources = false;
