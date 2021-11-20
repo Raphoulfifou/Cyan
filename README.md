@@ -4,21 +4,21 @@
 
 #### ✅ List of commands :
 
-* /bed -> teleport the player to his bed or respawn anchor, depending one which one is the respawn point
-* /bedof -> teleport the player to the bed of the player passed in the argument of the command (for now it only works when the player is online)
-* /surface -> teleport the player to the surface
+ /bed -> teleport the player to his bed or respawn anchor, depending one which one is the respawn point
+ /bedof -> teleport the player to the bed of the player passed in the argument of the command (for now it only works when the player is online)
+ /surface -> teleport the player to the surface
 #
-* /kgi (kill ground items) -> kill the items that are floating on the ground in a range of 14 chunks (can be changed in config using /setDistanceToEntitiesKgi)
-* /kgi <distance_in_chunks> (an number of chunks) -> kill the items that are floating on the ground in the specified range
+ /kgi (kill ground items) -> kill the items that are floating on the ground in a range of 14 chunks (can be changed in config using /setDistanceToEntitiesKgi)
+ /kgi <distance_in_chunks> (an number of chunks) -> kill the items that are floating on the ground in the specified range
 #
-* /Chelp (Cyan help) -> Displays help for this mod
-* /ops -> displays a list of all op players
+ /Chelp (Cyan help) -> Displays help for this mod
+ /ops -> displays a list of all op players
 #
-* /setAllowBed <true|false> -> enables/disables the use of /bed
-* /setDistanceToEntitiesKgi <number> -> set the distance (in chunks) in which the ground items will be removed (-> useful on servers where multiple players are online but not in the same location)
+ /setAllowBed <true|false> -> enables/disables the use of /bed
+ /setDistanceToEntitiesKgi <number> -> set the distance (in chunks) in which the ground items will be removed (-> useful on servers where multiple players are online but not in the same location)
 
 *not working :
-* /mods
+ /mods
 
 #### ✔️ List of current aliases:
 
