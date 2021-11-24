@@ -5,7 +5,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import fr.raphoulfifou.cyan.config.CyanConfig;
+import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -19,9 +19,8 @@ import java.util.Arrays;
  * @since 0.0.2
  * @author Raphoulfifou
  */
-public class MiscellaneousCommands  {
-
-    public static final CyanConfig CYAN_CONFIG = new CyanConfig(CyanConfig.DEFAULT_FILE_PATH);
+public class MiscellaneousCommands
+{
 
     public static void register(@NotNull CommandDispatcher<ServerCommandSource> dispatcher)
     {
@@ -68,17 +67,24 @@ public class MiscellaneousCommands  {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
 
-        // If OP with defined level (4 by default)
-        if(player.hasPermissionLevel(CYAN_CONFIG.getRequiredOpLevelKgi())) {
-            source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
-                    CYAN_CONFIG.getDistanceToEntitiesKgi())); // Default distance is 14 chunks, but can be changed in settings
-            source.getPlayer().sendMessage(new TranslatableText("cyan.message.kgi"), true);
+        if (CyanMidnightConfig.allowKgi)
+        {
+            // If OP with defined level (4 by default)
+            if(player.hasPermissionLevel(CyanMidnightConfig.minOpLevelExeKgi)) {
+                source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
+                        CyanMidnightConfig.distanceToEntitiesKgi)); // Default distance is 14 chunks, but can be changed in settings
+                source.getPlayer().sendMessage(new TranslatableText("cyan.message.kgi"), true);
+            }
+            // If not OP or not OP with max level
+            else {
+                source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
+                        CyanMidnightConfig.distanceToEntitiesKgi));
+                source.sendFeedback(new TranslatableText("cyan.message.kgi"), true);
+            }
         }
-        // If not OP or not OP with max level
-        else {
-            source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
-                    CYAN_CONFIG.getDistanceToEntitiesKgi()));
-            source.sendFeedback(new TranslatableText("cyan.message.kgi"), true);
+        else
+        {
+            player.sendMessage(new TranslatableText("cyan.message.disabled.kgi"), true);
         }
         return Command.SINGLE_SUCCESS;
     }
@@ -101,17 +107,24 @@ public class MiscellaneousCommands  {
         ServerPlayerEntity player = source.getPlayer();
         int arg = IntegerArgumentType.getInteger(context, "distance_in_chunks");
 
-        // If OP with defined level (4 by default)
-        if(player.hasPermissionLevel(CYAN_CONFIG.getRequiredOpLevelKgi())) {
-            source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
-                    arg*16));   // Default distance is 14 chunks, but can be changed in settings or with commands
-            source.getPlayer().sendMessage(new TranslatableText("cyan.message.kgir",arg), true);
+        if (player.hasPermissionLevel(CyanMidnightConfig.minOpLevelExeKgi))
+        {
+            // If OP with defined level (4 by default)
+            if(player.hasPermissionLevel(CyanMidnightConfig.minOpLevelExeKgi)) {
+                source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
+                        arg*16));   // Default distance is 14 chunks, but can be changed in settings or with commands
+                source.getPlayer().sendMessage(new TranslatableText("cyan.message.kgir",arg), true);
+            }
+            // If not OP or not OP with max level
+            else {
+                source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
+                        arg*16));
+                source.sendFeedback(new TranslatableText("cyan.message.kgir",arg), true);
+            }
         }
-        // If not OP or not OP with max level
-        else {
-            source.getServer().getCommandManager().execute(source,String.format("/kill @e[type=item,distance=..%d]",
-                    arg*16));
-            source.sendFeedback(new TranslatableText("cyan.message.kgir",arg), true);
+        else
+        {
+            player.sendMessage(new TranslatableText("cyan.message.disabled.kgi"), true);
         }
         return Command.SINGLE_SUCCESS;
     }
@@ -138,7 +151,7 @@ public class MiscellaneousCommands  {
     /**
      * <p>Called when a player execute the command "/ops"</p>
      *
-     * <ul>If the player has a permission level equal to 4
+     * <ul>If the player has a permission level equal to the level defined in the config (4 by default)
      *      <li>-> A list with all the op players is displayed</li>
      * </ul>
      * <ul>Else:
