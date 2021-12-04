@@ -2,8 +2,8 @@ package fr.raphoulfifou.cyan.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
 
-public class CyanMidnightConfig extends MidnightConfig {
-
+public class CyanMidnightConfig extends MidnightConfig
+{
     @Comment public static Comment allowOptions;
     @Entry
     public static boolean allowBed = true;

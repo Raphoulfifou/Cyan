@@ -27,6 +27,7 @@ public class CyanServerCore implements DedicatedServerModInitializer {
     public void onInitializeServer()
     {
         MidnightConfig.init("cyan", CyanMidnightConfig.class);
+        CyanServerCore.LOGGER.info("{} Successfully initialized config", SERVERMODNAME);
 
         // Register all the commands
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->

@@ -26,6 +26,7 @@ public class CyanClientCore implements ClientModInitializer {
     public void onInitializeClient()
     {
         MidnightConfig.init("cyan", CyanMidnightConfig.class);
+        CyanClientCore.LOGGER.info("{} Successfully initialized config", CLIENTMODNAME);
 
         // Register all the commands
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
