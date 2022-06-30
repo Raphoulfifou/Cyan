@@ -28,36 +28,42 @@ public class SetCommands
 
     public static void register(@NotNull CommandDispatcher<ServerCommandSource> dispatcher)
     {
-        dispatcher.register(CommandManager.literal("setAllowBed")
+        dispatcher.register(CommandManager.literal("allowBed")
                 .then(CommandManager.argument("bool", BoolArgumentType.bool())
                         .executes(SetCommands::setAllowBed)
                 )
+                .executes(SetCommands::getAllowBed)
         );
-        dispatcher.register(CommandManager.literal("setAllowKgi")
+        dispatcher.register(CommandManager.literal("allowKgi")
                 .then(CommandManager.argument("bool", BoolArgumentType.bool())
                         .executes(SetCommands::setAllowKgi)
                 )
+                .executes(SetCommands::getAllowKgi)
         );
-        dispatcher.register(CommandManager.literal("setAllowSurface")
+        dispatcher.register(CommandManager.literal("allowSurface")
                 .then(CommandManager.argument("bool", BoolArgumentType.bool())
                         .executes(SetCommands::setAllowSurface)
                 )
+                .executes(SetCommands::getAllowSurface)
         );
-        dispatcher.register(CommandManager.literal("setUseOneLanguage")
+        dispatcher.register(CommandManager.literal("useOneLanguage")
                 .then(CommandManager.argument("bool", BoolArgumentType.bool())
                         .executes(SetCommands::setUseOneLanguage)
                 )
+                .executes(SetCommands::getUseOneLanguage)
         );
 
-        dispatcher.register(CommandManager.literal("setDistanceToEntitiesKgi")
+        dispatcher.register(CommandManager.literal("distanceToEntitiesKgi")
                 .then(CommandManager.argument("int", IntegerArgumentType.integer())
                         .executes(SetCommands::setDistanceToEntitiesKgi)
                 )
+                .executes(SetCommands::getDistanceToEntitiesKgi)
         );
-        dispatcher.register(CommandManager.literal("setRequiredOpLevelKgi")
+        dispatcher.register(CommandManager.literal("requiredOpLevelKgi")
                 .then(CommandManager.argument("int", IntegerArgumentType.integer())
                         .executes(SetCommands::setRequiredOpLevelKgi)
                 )
+                .executes(SetCommands::getRequiredOpLevelKgi)
         );
     }
 
@@ -369,6 +375,176 @@ public class SetCommands
                     CyanMidnightConfig.useOneLanguage);
             return 0;
         }
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command "/allowBed"</p>
+     *
+     * <li>-> Gives the status of the options 'allowBed'</li>
+     */
+    public static int getAllowBed(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        assert player != null;
+        boolean arg = CyanMidnightConfig.allowBed;
+
+        if (arg)
+        {
+            color = green;
+        } else
+        {
+            color = red;
+        }
+
+        sendPlayerMessage(player,
+                line_start + "§3allowBed option is set to %s",
+                color + Boolean.toString(arg),
+                "cyan.message.getAllowBed",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command "/allowKgi"</p>
+     *
+     * <li>-> Gives the status of the options 'allowKgi'</li>
+     */
+    public static int getAllowKgi(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        assert player != null;
+        boolean arg = CyanMidnightConfig.allowKgi;
+
+        if (arg)
+        {
+            color = green;
+        } else
+        {
+            color = red;
+        }
+
+        sendPlayerMessage(player,
+                line_start + "§3allowKgi option is set to %s",
+                color + Boolean.toString(arg),
+                "cyan.message.getAllowKgi",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command "/allowSurface"</p>
+     *
+     * <li>-> Gives the status of the options 'allowSurface'</li>
+     */
+    public static int getAllowSurface(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        assert player != null;
+        boolean arg = CyanMidnightConfig.allowSurface;
+
+        if (arg)
+        {
+            color = green;
+        } else
+        {
+            color = red;
+        }
+
+        sendPlayerMessage(player,
+                line_start + "§3allowSurface option is set to %s",
+                color + Boolean.toString(arg),
+                "cyan.message.getAllowSurface",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command "/useOneLanguage"</p>
+     *
+     * <li>-> Gives the status of the options 'useOneLanguage'</li>
+     */
+    public static int getUseOneLanguage(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        assert player != null;
+        boolean arg = CyanMidnightConfig.useOneLanguage;
+
+        if (arg)
+        {
+            color = green;
+        } else
+        {
+            color = red;
+        }
+
+        sendPlayerMessage(player,
+                line_start + "§3useOneLanguage option is set to %s",
+                color + Boolean.toString(arg),
+                "cyan.message.getUseOneLanguage",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command "/distanceToEntitiesKgi"</p>
+     *
+     * <li>-> Gives the status of the options 'distanceToEntitiesKgi'</li>
+     */
+    public static int getDistanceToEntitiesKgi(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        assert player != null;
+        int arg = CyanMidnightConfig.distanceToEntitiesKgi;
+
+        sendPlayerMessage(player,
+                line_start + "§3distanceToEntitiesKgi option is set to %s",
+                Formatting.GOLD + Integer.toString(arg),
+                "cyan.message.getDistanceToEntitiesKgi",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command "/requiredOpLevelKgi"</p>
+     *
+     * <li>-> Gives the status of the options 'requiredOpLevelKgi'</li>
+     */
+    public static int getRequiredOpLevelKgi(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        assert player != null;
+        int arg = CyanMidnightConfig.minOpLevelExeKgi;
+
+        sendPlayerMessage(player,
+                line_start + "§3requiredOpLevelKgi option is set to %s",
+                Formatting.GOLD + Integer.toString(arg),
+                "cyan.message.getRequiredOpLevelKgi",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
         return Command.SINGLE_SUCCESS;
     }
 

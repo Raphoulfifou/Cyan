@@ -10,8 +10,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @since 0.0.1
@@ -20,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 public class CyanClientCore implements ClientModInitializer
 {
 
-    public static final Logger LOGGER = LogManager.getLogger(CyanServerCore.MODID);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CyanServerCore.MODID);
     public static final String CLIENTMODNAME = "[CyanClient]";
 
     @Override
