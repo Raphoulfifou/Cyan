@@ -1,0 +1,8 @@
+{
+  "allowBed": true,
+  "allowKgi": true,
+  "allowSurface": true,
+  "distanceToEntitiesKgi": 14,
+  "minOpLevelExeKgi": 4,
+  "useOneLanguage": true
+}
