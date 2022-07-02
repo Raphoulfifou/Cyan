@@ -27,7 +27,7 @@ public class CyanClientCore implements ClientModInitializer
     // Initialize the differents parts of the mod when lauched on client (used when in singleplayer)
     public void onInitializeClient()
     {
-        MidnightConfig.init("cyan", CyanMidnightConfig.class);
+        MidnightConfig.init(CyanServerCore.MODID, CyanMidnightConfig.class);
         CyanClientCore.LOGGER.info("{} Successfully initialized config", CLIENTMODNAME);
 
         // Register all the commands

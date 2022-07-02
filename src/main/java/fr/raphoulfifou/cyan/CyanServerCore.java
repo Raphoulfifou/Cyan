@@ -28,7 +28,7 @@ public class CyanServerCore implements DedicatedServerModInitializer
     // Initialize the differents parts of the mod when lauched on server
     public void onInitializeServer()
     {
-        MidnightConfig.init("cyan", CyanMidnightConfig.class);
+        MidnightConfig.init(MODID, CyanMidnightConfig.class);
         CyanServerCore.LOGGER.info("{} Successfully initialized config", SERVERMODNAME);
 
         // Register all the commands

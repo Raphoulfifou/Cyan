@@ -61,7 +61,7 @@ public class TeleportationCommands
     }
 
     /**
-     * <p>Called when a player execute the commands "/bed" or "/b"</p>
+     * <p>Called when a player execute the commands <code>/bed</code> or <code>/b</code></p>
      *
      * <ul>If the dimension of the player's spawnpoint is in the Overworld, get :
      *     <li>- Teleport the player to the coordinates, yaw and pitch in the Overworld</li>
@@ -104,7 +104,8 @@ public class TeleportationCommands
                                 null,
                                 "cyan.message.bed",
                                 true,
-                                CyanMidnightConfig.useOneLanguage);
+                                CyanMidnightConfig.useOneLanguage
+                        );
                         // The add of 0 xp levels is here to update the levels, so that they appear when teleporting to the bed from an other dimension
                         source.getServer().getCommandManager().execute(source, "/xp add %s 0".formatted(player.getEntityName()));
                     } else
@@ -116,7 +117,8 @@ public class TeleportationCommands
                                 null,
                                 "cyan.message.bed",
                                 true,
-                                CyanMidnightConfig.useOneLanguage);
+                                CyanMidnightConfig.useOneLanguage
+                        );
                     }
                 } else if (player.getSpawnPointDimension() == World.NETHER)
                 {
@@ -129,7 +131,8 @@ public class TeleportationCommands
                                 null,
                                 "cyan.message.respawnanchor",
                                 true,
-                                CyanMidnightConfig.useOneLanguage);
+                                CyanMidnightConfig.useOneLanguage
+                        );
                         source.getServer().getCommandManager().execute(source, "/xp add %s 0".formatted(player.getEntityName()));
                     } else
                     {
@@ -140,7 +143,8 @@ public class TeleportationCommands
                                 null,
                                 "cyan.message.respawnanchor",
                                 true,
-                                CyanMidnightConfig.useOneLanguage);
+                                CyanMidnightConfig.useOneLanguage
+                        );
                     }
                 }
             } else
@@ -150,24 +154,26 @@ public class TeleportationCommands
                         null,
                         "cyan.message.bed.notfound",
                         false,
-                        CyanMidnightConfig.useOneLanguage);
+                        CyanMidnightConfig.useOneLanguage
+                );
                 return 0;
             }
         } else
         {
             sendPlayerMessage(player,
-                    line_start_error + "The /bed command is disabled. To enable it, enter '/setAllowBed true' in chat",
+                    line_start_error + "The /bed command is disabled. To enable it, enter '/allowBed true' in chat",
                     null,
                     "cyan.message.disabled.bed",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
     }
 
     /**
-     * Called when a player execute the commands "/bedof [playerName]" or "/bo [playerName]"
+     * Called when a player execute the commands <code>/bedof [playerName]</code> or <code>/bo [playerName]</code>
      * <ul>If the player is online :
      *     <ul>If the player's spawnpoint is in the OVERWORLD:
      *         <li>- teleports the player to its spawnpoint (bed or respawn anchor)</li>
@@ -290,7 +296,7 @@ public class TeleportationCommands
     }
 
     /**
-     * <p>Called when a player execute the commands "/surface" or "/s"</p>
+     * <p>Called when a player execute the commands <code>/surface</code> or <code>/s</code></p>
      * <p>Teleport the player to the highest block that was found on the player's coordinates</p>
      *
      * @throws CommandSyntaxException if the syntaxe of the command isn't correct
@@ -315,15 +321,17 @@ public class TeleportationCommands
                     null,
                     "cyan.message.surface",
                     true,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
         } else
         {
             sendPlayerMessage(player,
-                    line_start_error + "The /surface command is disabled. To enable it, enter '/setAllowSurface true' in chat",
+                    line_start_error + "The /surface command is disabled. To enable it, enter '/allowSurface true' in chat",
                     null,
                     "cyan.message.disabled.surface",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
