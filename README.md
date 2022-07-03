@@ -4,7 +4,7 @@
 
 > For dev people : if you have ideas you want to see in this mod, and know how to code them, you can make a pull request on the github page of the mod
 >
->![github_issues](https://img.shields.io/github/issues/Raphoulfifou/Cyan?color=red&style=for-the-badge) ![github_pull_requests](https://img.shields.io/github/issues-pr/Raphoulfifou/Cyan?style=for-the-badge)
+>![github_issues](https://img.shields.io/github/issues/Raphoulfifou/Cyan?color=red&style=for-the-badge&logo=github) ![github_pull_requests](https://img.shields.io/github/issues-pr/Raphoulfifou/Cyan?style=for-the-badge&logo=github)
 
 
 📖 If you launch the mod on server side, it will use the latest version of minecraft, but if you use it on client side,
@@ -27,13 +27,13 @@ it will allow you to play any version of the same number (ex: 1.17, 1.17.1 ...)
     - /ops -> displays a list of all op players
 
 
-    - /setAllowBed [true|false] -> allows or not the use of /bed
-    - /setAllowKgi [true|false] -> allows or not the use of /kgi
-    - /setAllowSurface [true|false] -> allows or not the use of /surface
+    - /allowBed [true|false] -> allows or not the use of /bed
+    - /allowKgi [true|false] -> allows or not the use of /kgi
+    - /allowSurface [true|false] -> allows or not the use of /surface
 
 
-    - /setDistanceToEntitiesKgi [distance in chunks] -> change the value that is used by default by the /kgi
-    -  /setRequiredOpLevelKgi [integer between 0 and 4 (both included)] -> change the value of the minimum required OP
+    - /distanceToEntitiesKgi [distance in chunks] -> change the value that is used by default by the /kgi
+    -  /requiredOpLevelKgi [integer between 0 and 4 (both included)] -> change the value of the minimum required OP
         level used for the /kgi
 
 
