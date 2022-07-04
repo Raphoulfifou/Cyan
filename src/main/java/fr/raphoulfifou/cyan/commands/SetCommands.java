@@ -102,7 +102,8 @@ public class SetCommands
                     color + Boolean.toString(arg),
                     "cyan.message.setAllowBed",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
         }
         // If not OP or not OP with max level
         else
@@ -112,7 +113,8 @@ public class SetCommands
                     null,
                     "cyan.message.notOp",
                     true,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
@@ -152,7 +154,8 @@ public class SetCommands
                     color + Boolean.toString(arg),
                     "cyan.message.setAllowKgi",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
         } else
         {
             sendPlayerMessage(player,
@@ -160,7 +163,8 @@ public class SetCommands
                     null,
                     "cyan.message.notOp",
                     true,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
@@ -200,7 +204,8 @@ public class SetCommands
                     color + Boolean.toString(arg),
                     "cyan.message.setAllowSurface",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
         } else
         {
             sendPlayerMessage(player,
@@ -208,7 +213,8 @@ public class SetCommands
                     null,
                     "cyan.message.notOp",
                     true,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
@@ -239,7 +245,8 @@ public class SetCommands
                     null,
                     "cyan.message.incorrectIntKgi",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
 
@@ -251,7 +258,8 @@ public class SetCommands
                     green + Integer.toString(arg),
                     "cyan.message.setDistanceToEntitiesKgi",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
         } else
         {
             sendPlayerMessage(player,
@@ -259,7 +267,8 @@ public class SetCommands
                     null,
                     "cyan.message.notOp",
                     true,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
@@ -292,7 +301,8 @@ public class SetCommands
                     null,
                     "cyan.message.incorrectIntOp",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
 
@@ -304,7 +314,8 @@ public class SetCommands
                     green + Integer.toString(arg),
                     "cyan.message.setRequiredOpLevelKgi",
                     false,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
         } else
         {
             sendPlayerMessage(player,
@@ -312,7 +323,8 @@ public class SetCommands
                     null,
                     "cyan.message.notOp",
                     true,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
@@ -354,7 +366,8 @@ public class SetCommands
                         color + String.valueOf(arg),
                         "cyan.message.setUseOneLanguage",
                         false,
-                        CyanMidnightConfig.useOneLanguage);
+                        CyanMidnightConfig.useOneLanguage
+                );
             } else
             {
                 sendPlayerMessage(player,
@@ -362,7 +375,8 @@ public class SetCommands
                         null,
                         "cyan.message.notOp",
                         true,
-                        CyanMidnightConfig.useOneLanguage);
+                        CyanMidnightConfig.useOneLanguage
+                );
                 return 0;
             }
         } else
@@ -372,7 +386,8 @@ public class SetCommands
                     null,
                     "cyan.message.only_serv",
                     true,
-                    CyanMidnightConfig.useOneLanguage);
+                    CyanMidnightConfig.useOneLanguage
+            );
             return 0;
         }
         return Command.SINGLE_SUCCESS;
