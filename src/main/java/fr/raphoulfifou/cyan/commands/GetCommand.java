@@ -13,8 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-import static fr.raphoulfifou.cyan.util.ChatConstants.green;
-import static fr.raphoulfifou.cyan.util.ChatConstants.red;
 import static fr.raphoulfifou.cyanlib.util.ChatUtil.sendPlayerMessage;
 
 /**
@@ -47,35 +45,6 @@ public class GetCommand
         ServerPlayerEntity player = source.getPlayer();
 
         Map<String, Object> options = CyanMidnightConfig.generateOptionsMap();
-
-        if (! CyanMidnightConfig.allowBed)
-        {
-            a_c = red;
-        } else
-        {
-            a_c = green;
-        }
-        if (! CyanMidnightConfig.allowKgi)
-        {
-            b_c = red;
-        } else
-        {
-            b_c = green;
-        }
-        if (! CyanMidnightConfig.allowSurface)
-        {
-            c_c = red;
-        } else
-        {
-            c_c = green;
-        }
-        if (CyanMidnightConfig.useOneLanguage)
-        {
-            d_c = red;
-        } else
-        {
-            d_c = green;
-        }
 
         sendPlayerMessage(player,
                 "§6|--> §3Options defined for the Cyan mod :",
@@ -120,50 +89,6 @@ public class GetCommand
                 );
             }
         }
-
-        /*sendPlayerMessage(player,
-                "§6>> §3/bed allowed : %s",
-                a_c + Boolean.toString(CyanMidnightConfig.allowBed),
-                "cyan.message.getCfgOptions.allowBed",
-                false,
-                CyanMidnightConfig.useOneLanguage
-        );
-        sendPlayerMessage(player,
-                "§6>> §3/kgi allowed : %s",
-                b_c + Boolean.toString(CyanMidnightConfig.allowKgi),
-                "cyan.message.getCfgOptions.allowKgi",
-                false,
-                CyanMidnightConfig.useOneLanguage
-        );
-        sendPlayerMessage(player,
-                "§6>> §3/surface allowed : %s",
-                c_c + Boolean.toString(CyanMidnightConfig.allowSurface),
-                "cyan.message.getCfgOptions.allowSurface",
-                false,
-                CyanMidnightConfig.useOneLanguage
-        );
-        sendPlayerMessage(player,
-                "§6>> §3Use of traduction files : %s",
-                d_c + Boolean.toString(! CyanMidnightConfig.useOneLanguage),
-                "cyan.message.getCfgOptions.getUseOneLanguage",
-                false,
-                CyanMidnightConfig.useOneLanguage
-        );
-
-        sendPlayerMessage(player,
-                "§6>> §3kgi distance (in chunks): %s",
-                Formatting.GOLD + Integer.toString(CyanMidnightConfig.distanceToEntitiesKgi),
-                "cyan.message.getCfgOptions.distanceToEntitiesKgi",
-                false,
-                CyanMidnightConfig.useOneLanguage
-        );
-        sendPlayerMessage(player,
-                "§6>> §3Minimu OP level for /kgi : %s",
-                Formatting.GOLD + Integer.toString(CyanMidnightConfig.minOpLevelExeKgi),
-                "cyan.message.getCfgOptions.minOpLevelExeKgi",
-                false,
-                CyanMidnightConfig.useOneLanguage
-        );*/
 
         return Command.SINGLE_SUCCESS;
     }

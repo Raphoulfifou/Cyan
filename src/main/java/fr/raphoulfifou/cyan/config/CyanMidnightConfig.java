@@ -33,6 +33,11 @@ public class CyanMidnightConfig extends MidnightConfig
     @Environment(EnvType.SERVER)
     public static boolean useOneLanguage = true;
 
+    /**
+     * Generates the map that will contain all options and their value
+     *
+     * @return a <code>Map</code> that contains all the options
+     */
     public static Map<String, Object> generateOptionsMap()
     {
         options.put("allowBed", allowBed);
@@ -47,6 +52,13 @@ public class CyanMidnightConfig extends MidnightConfig
         return options;
     }
 
+    /**
+     * Get the option given in parameter
+     *
+     * @param optionName the option name
+     *
+     * @return the option value (int | bool)
+     */
     public static Object getOption(String optionName)
     {
         return options.get(optionName);
