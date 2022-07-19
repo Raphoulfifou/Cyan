@@ -52,18 +52,6 @@ public class CyanMidnightConfig extends MidnightConfig
         return options;
     }
 
-    /**
-     * Get the option given in parameter
-     *
-     * @param optionName the option name
-     *
-     * @return the option value (int | bool)
-     */
-    public static Object getOption(String optionName)
-    {
-        return options.get(optionName);
-    }
-
     // Booleans
     public static void setAllowBed(boolean value)
     {
