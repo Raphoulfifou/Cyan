@@ -1,1 +1,7 @@
 .idea/
+.gradle/
+build/
+run/
+run 1.18/
+runServer/
+runServer 1.18/
