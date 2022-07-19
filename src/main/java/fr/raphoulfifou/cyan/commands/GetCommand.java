@@ -11,6 +11,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 import static fr.raphoulfifou.cyan.util.ChatConstants.green;
 import static fr.raphoulfifou.cyan.util.ChatConstants.red;
 import static fr.raphoulfifou.cyanlib.util.ChatUtil.sendPlayerMessage;
@@ -43,6 +45,8 @@ public class GetCommand
     {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
+
+        Map<String, Object> options = CyanMidnightConfig.generateOptionsMap();
 
         if (! CyanMidnightConfig.allowBed)
         {
@@ -81,7 +85,43 @@ public class GetCommand
                 CyanMidnightConfig.useOneLanguage
         );
 
-        sendPlayerMessage(player,
+        for (Map.Entry<String, Object> entry : options.entrySet())
+        {
+            String key = entry.getKey();
+            if (entry.getValue() instanceof Boolean value)
+            {
+                if (value)
+                {
+                    sendPlayerMessage(player,
+                            "%s allowed : ".formatted(key),
+                            Formatting.GREEN + Boolean.toString(value),
+                            "cyan.message.getCfgOptions.%s".formatted(key),
+                            false,
+                            CyanMidnightConfig.useOneLanguage
+                    );
+                } else
+                {
+                    sendPlayerMessage(player,
+                            "%s allowed : ".formatted(key),
+                            Formatting.RED + Boolean.toString(value),
+                            "cyan.message.getCfgOptions.%s".formatted(key),
+                            false,
+                            CyanMidnightConfig.useOneLanguage
+                    );
+                }
+            } else if (entry.getValue() instanceof Integer value)
+            {
+                sendPlayerMessage(player,
+                        "%s allowed : ".formatted(key),
+                        Formatting.GOLD + Integer.toString(value),
+                        "cyan.message.getCfgOptions.%s".formatted(key),
+                        false,
+                        CyanMidnightConfig.useOneLanguage
+                );
+            }
+        }
+
+        /*sendPlayerMessage(player,
                 "§6>> §3/bed allowed : %s",
                 a_c + Boolean.toString(CyanMidnightConfig.allowBed),
                 "cyan.message.getCfgOptions.allowBed",
@@ -123,7 +163,7 @@ public class GetCommand
                 "cyan.message.getCfgOptions.minOpLevelExeKgi",
                 false,
                 CyanMidnightConfig.useOneLanguage
-        );
+        );*/
 
         return Command.SINGLE_SUCCESS;
     }

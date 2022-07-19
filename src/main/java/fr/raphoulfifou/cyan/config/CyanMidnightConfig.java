@@ -4,8 +4,13 @@ import eu.midnightdust.lib.config.MidnightConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CyanMidnightConfig extends MidnightConfig
 {
+
+    public static Map<String, Object> options = new HashMap<>();
 
     @Comment
     public static Comment allowOptions;
@@ -25,7 +30,27 @@ public class CyanMidnightConfig extends MidnightConfig
     @Comment
     public static Comment otherOptions;
     @Entry
+    @Environment(EnvType.SERVER)
     public static boolean useOneLanguage = true;
+
+    public static Map<String, Object> generateOptionsMap()
+    {
+        options.put("allowBed", allowBed);
+        options.put("allowKgi", allowKgi);
+        options.put("allowSurface", allowSurface);
+
+        options.put("distanceToEntitiesKgi", distanceToEntitiesKgi);
+        options.put("minOpLevelExeKgi", minOpLevelExeKgi);
+
+        options.put("useOneLanguage", useOneLanguage);
+
+        return options;
+    }
+
+    public static Object getOption(String optionName)
+    {
+        return options.get(optionName);
+    }
 
     // Booleans
     public static void setAllowBed(boolean value)
