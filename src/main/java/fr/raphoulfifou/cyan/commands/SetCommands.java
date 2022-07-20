@@ -384,7 +384,7 @@ public class SetCommands
             sendPlayerMessage(player,
                     "§cThis command can only be used on servers",
                     null,
-                    "cyan.message.only_serv",
+                    "cyan.message.servOnly",
                     true,
                     CyanMidnightConfig.useOneLanguage
             );
@@ -487,37 +487,6 @@ public class SetCommands
     }
 
     /**
-     * <p>Called when a player execute the command <code>/useOneLanguage</code></p>
-     *
-     * <li>-> Gives the status of the options 'useOneLanguage'</li>
-     */
-    public static int getUseOneLanguage(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
-    {
-        ServerPlayerEntity player = context.getSource().getPlayer();
-        assert player != null;
-        boolean arg = CyanMidnightConfig.useOneLanguage;
-
-        if (arg)
-        {
-            color = green;
-        } else
-        {
-            color = red;
-        }
-
-        sendPlayerMessage(player,
-                line_start + "§3useOneLanguage option is set to %s",
-                color + Boolean.toString(arg),
-                "cyan.message.getUseOneLanguage",
-                false,
-                CyanMidnightConfig.useOneLanguage
-        );
-
-
-        return Command.SINGLE_SUCCESS;
-    }
-
-    /**
      * <p>Called when a player execute the command <code>/distanceToEntitiesKgi</code></p>
      *
      * <li>-> Gives the status of the options 'distanceToEntitiesKgi'</li>
@@ -555,6 +524,37 @@ public class SetCommands
                 line_start + "§3requiredOpLevelKgi option is set to %s",
                 Formatting.GOLD + Integer.toString(arg),
                 "cyan.message.getRequiredOpLevelKgi",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command <code>/useOneLanguage</code></p>
+     *
+     * <li>-> Gives the status of the options 'useOneLanguage'</li>
+     */
+    public static int getUseOneLanguage(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerPlayerEntity player = context.getSource().getPlayer();
+        assert player != null;
+        boolean arg = CyanMidnightConfig.useOneLanguage;
+
+        if (arg)
+        {
+            color = green;
+        } else
+        {
+            color = red;
+        }
+
+        sendPlayerMessage(player,
+                line_start + "§3useOneLanguage option is set to %s",
+                color + Boolean.toString(arg),
+                "cyan.message.getUseOneLanguage",
                 false,
                 CyanMidnightConfig.useOneLanguage
         );

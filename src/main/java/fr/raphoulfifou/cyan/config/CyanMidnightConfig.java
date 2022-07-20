@@ -30,8 +30,7 @@ public class CyanMidnightConfig extends MidnightConfig
     @Comment
     public static Comment otherOptions;
     @Entry
-    @Environment(EnvType.SERVER)
-    public static boolean useOneLanguage = true;
+    public static boolean useOneLanguage = false;
 
     /**
      * Generates the map that will contain all options and their value
@@ -52,7 +51,7 @@ public class CyanMidnightConfig extends MidnightConfig
         return options;
     }
 
-    // Booleans
+    // Allows
     public static void setAllowBed(boolean value)
     {
         allowBed = value;
@@ -71,14 +70,7 @@ public class CyanMidnightConfig extends MidnightConfig
         write("cyan");
     }
 
-    @Environment(EnvType.SERVER)
-    public static void setUseOneLanguage(boolean value)
-    {
-        useOneLanguage = value;
-        write("cyan");
-    }
-
-    // Integers
+    // Sets
     public static void setDistanceToEntitiesKgi(int value)
     {
         distanceToEntitiesKgi = value;
@@ -88,6 +80,15 @@ public class CyanMidnightConfig extends MidnightConfig
     public static void setMinOpLevelExeKgi(int value)
     {
         minOpLevelExeKgi = value;
+        write("cyan");
+    }
+
+    // Other
+
+    @Environment(EnvType.SERVER)
+    public static void setUseOneLanguage(boolean value)
+    {
+        useOneLanguage = value;
         write("cyan");
     }
 

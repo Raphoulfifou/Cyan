@@ -5,14 +5,17 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
+import fr.raphoulfifou.cyan.util.ChatConstants;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
+import static fr.raphoulfifou.cyan.util.ChatConstants.*;
 import static fr.raphoulfifou.cyanlib.util.ChatUtil.sendPlayerMessage;
 
 /**
@@ -20,11 +23,6 @@ import static fr.raphoulfifou.cyanlib.util.ChatUtil.sendPlayerMessage;
  */
 public class GetCommand
 {
-
-    static Formatting a_c = Formatting.GREEN;
-    static Formatting b_c = Formatting.GREEN;
-    static Formatting c_c = Formatting.GREEN;
-    static Formatting d_c = Formatting.GREEN;
 
     public static void register(@NotNull CommandDispatcher<ServerCommandSource> dispatcher)
     {
@@ -57,13 +55,19 @@ public class GetCommand
         for (Map.Entry<String, Object> entry : options.entrySet())
         {
             String key = entry.getKey();
+            String currentTrad = null;
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER)
+            {
+                currentTrad = ChatConstants.getOptionTraduction(entry.getKey());
+            }
+
             if (entry.getValue() instanceof Boolean value)
             {
                 if (value)
                 {
                     sendPlayerMessage(player,
-                            "%s allowed : ".formatted(key),
-                            Formatting.GREEN + Boolean.toString(value),
+                            currentTrad,
+                            green + Boolean.toString(value),
                             "cyan.message.getCfgOptions.%s".formatted(key),
                             false,
                             CyanMidnightConfig.useOneLanguage
@@ -71,8 +75,8 @@ public class GetCommand
                 } else
                 {
                     sendPlayerMessage(player,
-                            "%s allowed : ".formatted(key),
-                            Formatting.RED + Boolean.toString(value),
+                            currentTrad,
+                            red + Boolean.toString(value),
                             "cyan.message.getCfgOptions.%s".formatted(key),
                             false,
                             CyanMidnightConfig.useOneLanguage
@@ -81,8 +85,8 @@ public class GetCommand
             } else if (entry.getValue() instanceof Integer value)
             {
                 sendPlayerMessage(player,
-                        "%s allowed : ".formatted(key),
-                        Formatting.GOLD + Integer.toString(value),
+                        currentTrad,
+                        gold + Integer.toString(value),
                         "cyan.message.getCfgOptions.%s".formatted(key),
                         false,
                         CyanMidnightConfig.useOneLanguage

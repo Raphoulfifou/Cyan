@@ -6,6 +6,7 @@ import fr.raphoulfifou.cyan.commands.MiscellaneousCommands;
 import fr.raphoulfifou.cyan.commands.SetCommands;
 import fr.raphoulfifou.cyan.commands.TeleportationCommands;
 import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
+import fr.raphoulfifou.cyan.util.ChatConstants;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -30,6 +31,9 @@ public class CyanServerCore implements DedicatedServerModInitializer
     {
         MidnightConfig.init(MODID, CyanMidnightConfig.class);
         CyanServerCore.LOGGER.info("{} Successfully initialized config", SERVERMODNAME);
+
+        // Traductions when useOneLanguage is true
+        ChatConstants.generateOptionsTraductionsMap();
 
         // Register all the commands
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
