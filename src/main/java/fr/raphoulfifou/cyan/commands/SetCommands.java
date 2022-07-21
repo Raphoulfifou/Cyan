@@ -4,8 +4,10 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import fr.raphoulfifou.cyan.commands.argumentTypes.ArgumentSuggestion;
 import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -46,12 +48,6 @@ public class SetCommands
                 )
                 .executes(SetCommands::getAllowSurface)
         );
-        dispatcher.register(CommandManager.literal("useOneLanguage")
-                .then(CommandManager.argument("bool", BoolArgumentType.bool())
-                        .executes(SetCommands::setUseOneLanguage)
-                )
-                .executes(SetCommands::getUseOneLanguage)
-        );
 
         dispatcher.register(CommandManager.literal("distanceToEntitiesKgi")
                 .then(CommandManager.argument("int", IntegerArgumentType.integer())
@@ -59,11 +55,21 @@ public class SetCommands
                 )
                 .executes(SetCommands::getDistanceToEntitiesKgi)
         );
-        dispatcher.register(CommandManager.literal("requiredOpLevelKgi")
-                .then(CommandManager.argument("int", IntegerArgumentType.integer())
-                        .executes(SetCommands::setRequiredOpLevelKgi)
+        dispatcher.register(CommandManager.literal("requiredOpLevel")
+                .then(CommandManager.argument("optionName", StringArgumentType.string())
+                        .suggests(ArgumentSuggestion::getOptions)
+                        .then(CommandManager.argument("opLevel", StringArgumentType.string())
+                                .executes(SetCommands::setRequiredOpLevel)
+                        )
+                        .executes(SetCommands::getRequiredOpLevelKgi)
                 )
-                .executes(SetCommands::getRequiredOpLevelKgi)
+        );
+
+        dispatcher.register(CommandManager.literal("useOneLanguage")
+                .then(CommandManager.argument("bool", BoolArgumentType.bool())
+                        .executes(SetCommands::setUseOneLanguage)
+                )
+                .executes(SetCommands::getUseOneLanguage)
         );
     }
 
@@ -286,15 +292,17 @@ public class SetCommands
      *
      * @throws CommandSyntaxException if the syntaxe of the command isn't correct
      */
-    public static int setRequiredOpLevelKgi(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    public static int setRequiredOpLevel(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
     {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
-        int arg = IntegerArgumentType.getInteger(context, "int");
+        String optionName = StringArgumentType.getString(context, "optionName");
+        String opLevel = StringArgumentType.getString(context, "opLevel");
+        int opLevelInt = Integer.parseInt(opLevel);
 
-        // If the argument passed to the command isn't in [0;4], the config file will not be modified and the function
-        // stops here
-        if (arg < 0 || arg > 4)
+        // If the argument passed to the command isn't in [0;4],
+        // the config file will not be modified and the functionstops here
+        if (opLevelInt < 0 || opLevelInt > 4)
         {
             sendPlayerMessage(player,
                     line_start_error + "The OP level must be [0;1;2;3 or 4]",
@@ -306,12 +314,12 @@ public class SetCommands
             return 0;
         }
 
-        if (player.hasPermissionLevel(CyanMidnightConfig.minOpLevelExeKgi))
+        if (player.hasPermissionLevel(CyanMidnightConfig.minOpLevelExe))
         {
-            CyanMidnightConfig.setMinOpLevelExeKgi(arg);
+            CyanMidnightConfig.setIntOption(optionName, opLevelInt);
             sendPlayerMessage(player,
                     line_start + "§3RequiredOpLevelKgi option have been set to %s",
-                    green + Integer.toString(arg),
+                    green + Integer.toString(opLevelInt),
                     "cyan.message.setRequiredOpLevelKgi",
                     false,
                     CyanMidnightConfig.useOneLanguage

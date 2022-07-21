@@ -4,7 +4,6 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import fr.raphoulfifou.cyan.commands.argumentTypes.ArgumentSuggestion;
 import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
 import net.minecraft.command.argument.UuidArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -21,7 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.UUID;
 
-import static fr.raphoulfifou.cyan.util.ChatConstants.*;
+import static fr.raphoulfifou.cyan.util.ChatConstants.line_start;
+import static fr.raphoulfifou.cyan.util.ChatConstants.line_start_error;
 import static fr.raphoulfifou.cyanlib.util.ChatUtil.sendPlayerMessage;
 
 /**
@@ -37,19 +37,6 @@ public class TeleportationCommands
         );
         dispatcher.register(CommandManager.literal("b")
                 .executes(TeleportationCommands::bed)
-        );
-
-        dispatcher.register(CommandManager.literal("bedof")
-                .then(CommandManager.argument("playerName", UuidArgumentType.uuid())
-                        .suggests(ArgumentSuggestion::getAllPlayersUUID)
-                        .executes(TeleportationCommands::playerBed)
-                )
-        );
-        dispatcher.register(CommandManager.literal("bo")
-                .then(CommandManager.argument("playerName", UuidArgumentType.uuid())
-                        .suggests(ArgumentSuggestion::getAllPlayersUUID)
-                        .executes(TeleportationCommands::playerBed)
-                )
         );
 
         dispatcher.register(CommandManager.literal("surface")

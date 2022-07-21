@@ -42,7 +42,7 @@ public class GetCommand
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
 
-        Map<String, Object> options = CyanMidnightConfig.generateOptionsMap();
+        Map<String, Map<String, Object>> options = CyanMidnightConfig.generateOptionsMap();
 
         sendPlayerMessage(player,
                 "§6|--> §3Options defined for the Cyan mod :",
@@ -52,45 +52,48 @@ public class GetCommand
                 CyanMidnightConfig.useOneLanguage
         );
 
-        for (Map.Entry<String, Object> entry : options.entrySet())
+        for (Map.Entry<String, Map<String, Object>> entry : options.entrySet())
         {
-            String key = entry.getKey();
-            String currentTrad = null;
-            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER)
+            Map<String, Object> key = entry.getValue();
+            for (Map.Entry<String, Object> entry2 : key.entrySet())
             {
-                currentTrad = ChatConstants.getOptionTraduction(entry.getKey());
-            }
+                String currentTrad = null;
+                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER)
+                {
+                    currentTrad = ChatConstants.getOptionTraduction(entry2.getKey());
+                }
 
-            if (entry.getValue() instanceof Boolean value)
-            {
-                if (value)
+                if (entry2.getValue() instanceof Boolean value)
+                {
+                    if (value)
+                    {
+                        sendPlayerMessage(player,
+                                currentTrad,
+                                green + Boolean.toString(value),
+                                "cyan.message.getCfgOptions.%s".formatted(key),
+                                false,
+                                CyanMidnightConfig.useOneLanguage
+                        );
+                    } else
+                    {
+                        sendPlayerMessage(player,
+                                currentTrad,
+                                red + Boolean.toString(value),
+                                "cyan.message.getCfgOptions.%s".formatted(key),
+                                false,
+                                CyanMidnightConfig.useOneLanguage
+                        );
+                    }
+                } else if (entry2.getValue() instanceof Integer value)
                 {
                     sendPlayerMessage(player,
                             currentTrad,
-                            green + Boolean.toString(value),
-                            "cyan.message.getCfgOptions.%s".formatted(key),
-                            false,
-                            CyanMidnightConfig.useOneLanguage
-                    );
-                } else
-                {
-                    sendPlayerMessage(player,
-                            currentTrad,
-                            red + Boolean.toString(value),
+                            gold + Integer.toString(value),
                             "cyan.message.getCfgOptions.%s".formatted(key),
                             false,
                             CyanMidnightConfig.useOneLanguage
                     );
                 }
-            } else if (entry.getValue() instanceof Integer value)
-            {
-                sendPlayerMessage(player,
-                        currentTrad,
-                        gold + Integer.toString(value),
-                        "cyan.message.getCfgOptions.%s".formatted(key),
-                        false,
-                        CyanMidnightConfig.useOneLanguage
-                );
             }
         }
 
