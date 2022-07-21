@@ -12,11 +12,9 @@ import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.Objects;
 
 import static fr.raphoulfifou.cyan.util.ChatConstants.*;
 import static fr.raphoulfifou.cyanlib.util.ChatUtil.sendPlayerMessage;
@@ -46,7 +44,7 @@ public class CyanCommands
     }
 
     /**
-     * <p>Called when a player execute the command <code>/allowBed [true | false]</code></p>
+     * <p>Called when a player execute the command <code>/cyan set allow [optionName] [true|false]</code></p>
      *
      * <ul>If the player has a permission level equal to 4
      *      <li>-> Enables/disables the use of the /bed command</li>
@@ -68,25 +66,15 @@ public class CyanCommands
         String option = StringArgumentType.getString(context, "option");
         boolean boolValue = BoolArgumentType.getBool(context, "boolValue");
 
+        // Used for the translationPath (we geet the word in lowercase but we need the first letter in uppercase)
         String upperCaseOptionName = String.valueOf(option.charAt(0)).toUpperCase();
         String tmpOption = option.substring(1);
         upperCaseOptionName = upperCaseOptionName.concat(tmpOption);
-
-        player.sendMessage(Text.of(upperCaseOptionName), false);
 
         /*if (Objects.equals(option, "all"))
         {
             option = "general";
         }*/
-
-        String tradPath;
-        if (Objects.equals(option, "all"))
-        {
-            tradPath = "";
-        } else
-        {
-            tradPath = option;
-        }
 
         // If OP with minimum defined level (minOpLevelExe option)
         if (player.hasPermissionLevel((Integer) options.get("minOpLevelExe").get("minOpLevelExeGeneral")))
@@ -106,9 +94,9 @@ public class CyanCommands
                 } else
                 {
                     sendPlayerMessage(player,
-                            line_start + "§3setAllow%s %s".formatted(option, "option have been set to %s"),
+                            line_start + "§3setAllow%s %s".formatted(upperCaseOptionName, "option have been set to %s"),
                             green + Boolean.toString(boolValue),
-                            "cyan.message.setAllow%s".formatted(option),
+                            "cyan.message.setAllow%s".formatted(upperCaseOptionName),
                             false,
                             CyanMidnightConfig.useOneLanguage
                     );
@@ -127,9 +115,9 @@ public class CyanCommands
                 } else
                 {
                     sendPlayerMessage(player,
-                            line_start + "§3setAllow%s %s".formatted(option, "option have been set to %s"),
+                            line_start + "§3setAllow%s %s".formatted(upperCaseOptionName, "option have been set to %s"),
                             red + Boolean.toString(boolValue),
-                            "cyan.message.setAllow%s".formatted(option),
+                            "cyan.message.setAllow%s".formatted(upperCaseOptionName),
                             false,
                             CyanMidnightConfig.useOneLanguage
                     );
