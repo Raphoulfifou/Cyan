@@ -13,7 +13,8 @@ public class CyanMidnightConfig extends MidnightConfig
 
     public static Map<String, Object> allowOptionsMap = new HashMap<>();
     public static Map<String, Object> exeLevelOptionsMap = new HashMap<>();
-    public static Map<String, Object> otherOptionsMap = new HashMap<>();
+    public static Map<String, Object> otherOptionsBoolMap = new HashMap<>();
+    public static Map<String, Object> otherOptionsIntMap = new HashMap<>();
     public static Map<String, Map<String, Object>> optionsMap = new HashMap<>();
 
     @Comment
@@ -62,12 +63,18 @@ public class CyanMidnightConfig extends MidnightConfig
         return exeLevelOptionsMap;
     }
 
-    public static Map<String, Object> generateOtherOptionsMap()
+    public static Map<String, Object> generateOtherBoolOptionsMap()
     {
-        otherOptionsMap.put("distanceToEntitiesKgi", distanceToEntitiesKgi);
-        otherOptionsMap.put("useOneLanguage", useOneLanguage);
+        otherOptionsBoolMap.put("useOneLanguage", useOneLanguage);
 
-        return otherOptionsMap;
+        return otherOptionsBoolMap;
+    }
+
+    public static Map<String, Object> generateOtherIntOptionsMap()
+    {
+        otherOptionsIntMap.put("distanceToEntitiesKgi", distanceToEntitiesKgi);
+
+        return otherOptionsIntMap;
     }
 
     /**
@@ -79,10 +86,12 @@ public class CyanMidnightConfig extends MidnightConfig
     {
         allowOptionsMap = generateAllowOptionsMap();
         exeLevelOptionsMap = generateExeLevelOptionsMap();
-        otherOptionsMap = generateOtherOptionsMap();
+        otherOptionsBoolMap = generateOtherBoolOptionsMap();
+        otherOptionsIntMap = generateOtherIntOptionsMap();
         optionsMap.put("allows", allowOptionsMap);
         optionsMap.put("minOpLevelExe", exeLevelOptionsMap);
-        optionsMap.put("other", otherOptionsMap);
+        optionsMap.put("otherBool", otherOptionsBoolMap);
+        optionsMap.put("otherInt", otherOptionsIntMap);
 
         return optionsMap;
     }
@@ -95,6 +104,7 @@ public class CyanMidnightConfig extends MidnightConfig
             case "bed" -> allowBed = value;
             case "kgi" -> allowKgi = value;
             case "surface" -> allowSurface = value;
+            case "useOneLanguage" -> useOneLanguage = value;
         }
         write("cyan");
     }

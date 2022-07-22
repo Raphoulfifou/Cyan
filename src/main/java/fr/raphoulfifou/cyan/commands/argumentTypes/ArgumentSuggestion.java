@@ -24,6 +24,50 @@ public final class ArgumentSuggestion
      *
      * @return a suggestion with all available allow options
      */
+    public static CompletableFuture<Suggestions> getOtherBoolOptions(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder) throws CommandSyntaxException
+    {
+        MinecraftServer server = context.getSource().getServer();
+        Map<String, Object> options = CyanMidnightConfig.generateOtherBoolOptionsMap();
+
+        List<String> exeLevels = new ArrayList<>();
+        // Here we cut the 'allow' part of the String
+        for (Map.Entry<String, Object> entry : options.entrySet())
+        {
+            exeLevels.add(entry.getKey());
+        }
+
+        // Return the suggestion handler
+        return CommandSource.suggestMatching(exeLevels, builder);
+    }
+
+    /**
+     * @param context the command context
+     * @param builder the suggestion builder
+     *
+     * @return a suggestion with all available allow options
+     */
+    public static CompletableFuture<Suggestions> getOtherIntOptions(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder) throws CommandSyntaxException
+    {
+        MinecraftServer server = context.getSource().getServer();
+        Map<String, Object> options = CyanMidnightConfig.generateOtherIntOptionsMap();
+
+        List<String> exeLevels = new ArrayList<>();
+        // Here we cut the 'allow' part of the String
+        for (Map.Entry<String, Object> entry : options.entrySet())
+        {
+            exeLevels.add(entry.getKey());
+        }
+
+        // Return the suggestion handler
+        return CommandSource.suggestMatching(exeLevels, builder);
+    }
+
+    /**
+     * @param context the command context
+     * @param builder the suggestion builder
+     *
+     * @return a suggestion with all available allow options
+     */
     public static CompletableFuture<Suggestions> getOptions(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder) throws CommandSyntaxException
     {
         MinecraftServer server = context.getSource().getServer();
