@@ -30,10 +30,11 @@ public class CyanCommands
         dispatcher.register(CommandManager.literal("cyan")
                 .then(CommandManager.literal("allow")
                         .then(CommandManager.argument("allowOption", StringArgumentType.string())
-                                .suggests(ArgumentSuggestion::getOptions)
-                                .then(CommandManager.argument("boolValue", BoolArgumentType.bool())
-                                        .executes(CyanCommands::setAllowOption)
-                                )
+                                        .suggests(ArgumentSuggestion::getOptions)
+                                        .then(CommandManager.argument("boolValue", BoolArgumentType.bool())
+                                                .executes(CyanCommands::setAllowOption)
+                                        )
+                                //TODO -> give the info on the option .executes(CyanCommands::getInfo)
                         )
 
                 )
@@ -362,7 +363,7 @@ public class CyanCommands
         Map<String, Map<String, Object>> options = CyanMidnightConfig.generateOptionsMap();
 
         sendPlayerMessage(player,
-                "§6|--> §3Options defined for the Cyan mod :",
+                "\n§6|--> §3Options defined for the Cyan mod :",
                 null,
                 "cyan.message.getCfgOptions.header",
                 false,
@@ -374,6 +375,7 @@ public class CyanCommands
             Map<String, Object> key = entry.getValue();
             for (Map.Entry<String, Object> entry2 : key.entrySet())
             {
+                Object key2 = entry2.getKey();
                 String currentTrad = null;
                 if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER)
                 {
@@ -387,7 +389,7 @@ public class CyanCommands
                         sendPlayerMessage(player,
                                 currentTrad,
                                 green + Boolean.toString(value),
-                                "cyan.message.getCfgOptions.%s".formatted(key),
+                                "cyan.message.getCfgOptions.%s".formatted(key2),
                                 false,
                                 CyanMidnightConfig.useOneLanguage
                         );
@@ -396,7 +398,7 @@ public class CyanCommands
                         sendPlayerMessage(player,
                                 currentTrad,
                                 red + Boolean.toString(value),
-                                "cyan.message.getCfgOptions.%s".formatted(key),
+                                "cyan.message.getCfgOptions.%s".formatted(key2),
                                 false,
                                 CyanMidnightConfig.useOneLanguage
                         );
@@ -406,7 +408,7 @@ public class CyanCommands
                     sendPlayerMessage(player,
                             currentTrad,
                             gold + Integer.toString(value),
-                            "cyan.message.getCfgOptions.%s".formatted(key),
+                            "cyan.message.getCfgOptions.%s".formatted(key2),
                             false,
                             CyanMidnightConfig.useOneLanguage
                     );

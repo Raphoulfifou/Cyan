@@ -1,8 +1,6 @@
 package fr.raphoulfifou.cyan.config;
 
 import eu.midnightdust.lib.config.MidnightConfig;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -120,65 +118,6 @@ public class CyanMidnightConfig extends MidnightConfig
             case "kgi" -> minOpLevelExeKgi = value;
             case "surface" -> minOpLevelExeSurface = value;
         }
-        write("cyan");
-    }
-
-    // Allows
-    public static void setAllowBed(boolean value)
-    {
-        allowBed = value;
-        write("cyan");
-    }
-
-    public static void setAllowKgi(boolean value)
-    {
-        allowKgi = value;
-        write("cyan");
-    }
-
-    public static void setAllowSurface(boolean value)
-    {
-        allowSurface = value;
-        write("cyan");
-    }
-
-    // Sets
-    public static void setDistanceToEntitiesKgi(int value)
-    {
-        distanceToEntitiesKgi = value;
-        write("cyan");
-    }
-
-    public static void setMinOpLevelExeModifConfig(int value)
-    {
-        minOpLevelExeModifConfig = value;
-        write("cyan");
-    }
-
-    public static void setMinOpLevelExeBed(int value)
-    {
-        minOpLevelExeBed = value;
-        write("cyan");
-    }
-
-    public static void setMinOpLevelExeKgi(int value)
-    {
-        minOpLevelExeKgi = value;
-        write("cyan");
-    }
-
-    public static void setMinOpLevelExeSurface(int value)
-    {
-        minOpLevelExeSurface = value;
-        write("cyan");
-    }
-
-    // Other
-
-    @Environment(EnvType.SERVER)
-    public static void setUseOneLanguage(boolean value)
-    {
-        useOneLanguage = value;
         write("cyan");
     }
 

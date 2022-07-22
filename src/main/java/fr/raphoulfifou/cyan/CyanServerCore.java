@@ -1,6 +1,7 @@
 package fr.raphoulfifou.cyan;
 
 import eu.midnightdust.lib.config.MidnightConfig;
+import fr.raphoulfifou.cyan.commands.CyanCommands;
 import fr.raphoulfifou.cyan.commands.MiscellaneousCommands;
 import fr.raphoulfifou.cyan.commands.TeleportationCommands;
 import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
@@ -38,6 +39,7 @@ public class CyanServerCore implements DedicatedServerModInitializer
         {
             TeleportationCommands.register(dispatcher);
             MiscellaneousCommands.register(dispatcher);
+            CyanCommands.register(dispatcher);
         });
         CyanServerCore.LOGGER.info("{} Successfully initialized commands", SERVERMODNAME);
         CyanServerCore.LOGGER.info("{} Successfully completed initialization", SERVERMODNAME);
