@@ -30,7 +30,7 @@ public class CyanMidnightConfig extends MidnightConfig
     @Entry(min = 1, max = 64)
     public static int distanceToEntitiesKgi = 14;
     @Entry(min = 0, max = 4)
-    public static int minOpLevelExe = 4;
+    public static int minOpLevelExeModifConfig = 4;
     @Entry(min = 0, max = 4)
     public static int minOpLevelExeBed = 0;
     @Entry(min = 0, max = 4)
@@ -54,7 +54,7 @@ public class CyanMidnightConfig extends MidnightConfig
 
     public static Map<String, Object> generateExeLevelOptionsMap()
     {
-        exeLevelOptionsMap.put("minOpLevelExeGeneral", minOpLevelExe);
+        exeLevelOptionsMap.put("minOpLevelExeModifConfig", minOpLevelExeModifConfig);
         exeLevelOptionsMap.put("minOpLevelExeBed", minOpLevelExeBed);
         exeLevelOptionsMap.put("minOpLevelExeKgi", minOpLevelExeKgi);
         exeLevelOptionsMap.put("minOpLevelExeSurface", minOpLevelExeSurface);
@@ -104,8 +104,8 @@ public class CyanMidnightConfig extends MidnightConfig
         switch (optionName)
         {
             case "distanceToEntitiesKgi" -> distanceToEntitiesKgi = value;
-            case "general" -> minOpLevelExe = minOpLevelExeBed = minOpLevelExeKgi = minOpLevelExeSurface = value;
-            case "generalExe" -> minOpLevelExe = value;
+            case "all" -> minOpLevelExeModifConfig = minOpLevelExeBed = minOpLevelExeKgi = minOpLevelExeSurface = value;
+            case "modifConfig" -> minOpLevelExeModifConfig = value;
             case "bed" -> minOpLevelExeBed = value;
             case "kgi" -> minOpLevelExeKgi = value;
             case "surface" -> minOpLevelExeSurface = value;
@@ -139,9 +139,9 @@ public class CyanMidnightConfig extends MidnightConfig
         write("cyan");
     }
 
-    public static void setMinOpLevelExe(int value)
+    public static void setMinOpLevelExeModifConfig(int value)
     {
-        minOpLevelExe = value;
+        minOpLevelExeModifConfig = value;
         write("cyan");
     }
 

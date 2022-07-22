@@ -3,7 +3,6 @@ package fr.raphoulfifou.cyan.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -25,22 +24,92 @@ public class CyanCommands
     public static void register(@NotNull CommandDispatcher<ServerCommandSource> dispatcher)
     {
         dispatcher.register(CommandManager.literal("cyan")
-                .then(CommandManager.literal("set")
-                        .then(CommandManager.argument("optionType", StringArgumentType.string())
-                                .suggests(ArgumentSuggestion::getOptionTypes)
-                                .then(CommandManager.argument("option", StringArgumentType.string())
-                                        .suggests(ArgumentSuggestion::getOptions)
-                                        .then(CommandManager.argument("boolValue", BoolArgumentType.bool())
-                                                .executes(CyanCommands::setBoolOption)
-                                        )
-                                        .then(CommandManager.argument("intValue", IntegerArgumentType.integer())
-                                                //.executes(CyanCommands::setIntOption)
-                                        )
+                .then(CommandManager.literal("allow")
+                        .then(CommandManager.argument("allowOption", StringArgumentType.string())
+                                .suggests(ArgumentSuggestion::getOptions)
+                                .then(CommandManager.argument("boolValue", BoolArgumentType.bool())
+                                        .executes(CyanCommands::setAllowOption)
+                                )
+                        )
+
+                )
+                .then(CommandManager.literal("minOpLevelExe")
+                        .then(CommandManager.argument("minOpLevelExeOption", StringArgumentType.string())
+                                .suggests(ArgumentSuggestion::getOptionsGeneral)
+                                .then(CommandManager.argument("intValue", StringArgumentType.string())
+                                        .suggests(ArgumentSuggestion::getOpLevels)
+                                        .executes(CyanCommands::setMinOpLevelExeOption)
                                 )
                         )
                 )
-                .executes(GetCommand::getConfigOptions)
         );
+    }
+
+    public static int setMinOpLevelExeOption(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerCommandSource source = context.getSource();
+        ServerPlayerEntity player = source.getPlayer();
+
+        Map<String, Map<String, Object>> options = CyanMidnightConfig.generateOptionsMap();
+
+        String option = StringArgumentType.getString(context, "minOpLevelExeOption");
+        String stringArg = StringArgumentType.getString(context, "intValue");
+        int intValue = Integer.parseInt(stringArg);
+
+        // If the argument passed to the command isn't in [0;4],
+        // the config file will not be modified and the functionstops here
+        if (intValue < 0 || intValue > 4)
+        {
+            sendPlayerMessage(player,
+                    line_start_error + "The OP level must be [0;1;2;3 or 4]",
+                    null,
+                    "cyan.message.incorrectIntOp",
+                    false,
+                    CyanMidnightConfig.useOneLanguage
+            );
+            return 0;
+        }
+
+        // Used for the translationPath (we geet the word in lowercase but we need the first letter in uppercase)
+        String upperCaseOptionName = String.valueOf(option.charAt(0)).toUpperCase();
+        String tmpOption = option.substring(1);
+        upperCaseOptionName = upperCaseOptionName.concat(tmpOption);
+
+        // If OP with minimum defined level (minOpLevelExe option)
+        if (player.hasPermissionLevel((Integer) options.get("minOpLevelExe").get("minOpLevelExeModifConfig")))
+        {
+            CyanMidnightConfig.setIntOption(option, intValue);
+            if ("all".equals(option))
+            {
+                sendPlayerMessage(player,
+                        line_start + "§3MinOpLevelExe options have been set to %s",
+                        gold + Integer.toString(intValue),
+                        "cyan.message.setMinOpLevelExe",
+                        false,
+                        CyanMidnightConfig.useOneLanguage
+                );
+            } else
+            {
+                sendPlayerMessage(player,
+                        line_start + "§3MinOpLevelExe%s %s".formatted(upperCaseOptionName, "option have been set to %s"),
+                        gold + Integer.toString(intValue),
+                        "cyan.message.setMinOpLevelExe%s".formatted(upperCaseOptionName),
+                        false,
+                        CyanMidnightConfig.useOneLanguage
+                );
+            }
+        } else  // If not OP or not OP with max level
+        {
+            sendPlayerMessage(player,
+                    notOP,
+                    null,
+                    "cyan.message.notOp",
+                    true,
+                    CyanMidnightConfig.useOneLanguage
+            );
+            return 0;
+        }
+        return Command.SINGLE_SUCCESS;
     }
 
     /**
@@ -55,15 +124,14 @@ public class CyanCommands
      *
      * @throws CommandSyntaxException if the syntaxe of the command isn't correct
      */
-    public static int setBoolOption(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    public static int setAllowOption(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
     {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
 
         Map<String, Map<String, Object>> options = CyanMidnightConfig.generateOptionsMap();
 
-        String optionType = StringArgumentType.getString(context, "optionType");
-        String option = StringArgumentType.getString(context, "option");
+        String option = StringArgumentType.getString(context, "allowOption");
         boolean boolValue = BoolArgumentType.getBool(context, "boolValue");
 
         // Used for the translationPath (we geet the word in lowercase but we need the first letter in uppercase)
@@ -71,13 +139,8 @@ public class CyanCommands
         String tmpOption = option.substring(1);
         upperCaseOptionName = upperCaseOptionName.concat(tmpOption);
 
-        /*if (Objects.equals(option, "all"))
-        {
-            option = "general";
-        }*/
-
         // If OP with minimum defined level (minOpLevelExe option)
-        if (player.hasPermissionLevel((Integer) options.get("minOpLevelExe").get("minOpLevelExeGeneral")))
+        if (player.hasPermissionLevel((Integer) options.get("minOpLevelExe").get("minOpLevelExeModifConfig")))
         {
             CyanMidnightConfig.setBoolOption(option, boolValue);
             if (boolValue)

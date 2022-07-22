@@ -314,7 +314,7 @@ public class SetCommands
             return 0;
         }
 
-        if (player.hasPermissionLevel(CyanMidnightConfig.minOpLevelExe))
+        if (player.hasPermissionLevel(CyanMidnightConfig.minOpLevelExeModifConfig))
         {
             CyanMidnightConfig.setIntOption(optionName, opLevelInt);
             sendPlayerMessage(player,
