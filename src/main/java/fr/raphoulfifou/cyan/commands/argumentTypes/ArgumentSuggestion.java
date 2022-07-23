@@ -22,7 +22,7 @@ public final class ArgumentSuggestion
      * @param context the command context
      * @param builder the suggestion builder
      *
-     * @return a suggestion with all available allow options
+     * @return a suggestion with all available boolean options
      */
     public static CompletableFuture<Suggestions> getOtherBoolOptions(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder) throws CommandSyntaxException
     {
@@ -30,7 +30,6 @@ public final class ArgumentSuggestion
         Map<String, Object> options = CyanMidnightConfig.generateOtherBoolOptionsMap();
 
         List<String> exeLevels = new ArrayList<>();
-        // Here we cut the 'allow' part of the String
         for (Map.Entry<String, Object> entry : options.entrySet())
         {
             exeLevels.add(entry.getKey());
@@ -44,7 +43,7 @@ public final class ArgumentSuggestion
      * @param context the command context
      * @param builder the suggestion builder
      *
-     * @return a suggestion with all available allow options
+     * @return a suggestion with all available integer options
      */
     public static CompletableFuture<Suggestions> getOtherIntOptions(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder) throws CommandSyntaxException
     {
@@ -52,7 +51,6 @@ public final class ArgumentSuggestion
         Map<String, Object> options = CyanMidnightConfig.generateOtherIntOptionsMap();
 
         List<String> exeLevels = new ArrayList<>();
-        // Here we cut the 'allow' part of the String
         for (Map.Entry<String, Object> entry : options.entrySet())
         {
             exeLevels.add(entry.getKey());
@@ -93,7 +91,7 @@ public final class ArgumentSuggestion
      * @param context the command context
      * @param builder the suggestion builder
      *
-     * @return a suggestion with all available allow options
+     * @return a suggestion with all available allow options + the bulk toogle + modifConfig
      */
     public static CompletableFuture<Suggestions> getOptionsGeneral(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder) throws CommandSyntaxException
     {
@@ -121,7 +119,7 @@ public final class ArgumentSuggestion
      * @param context the command context
      * @param builder the suggestion builder
      *
-     * @return a suggestion with all option types
+     * @return a suggestion with all OP levels
      */
     public static CompletableFuture<Suggestions> getOpLevels(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder)
     {
