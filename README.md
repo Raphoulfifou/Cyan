@@ -10,12 +10,18 @@
 |       `1.16.x`        |     ❌      |
 |       `1.17.x`        |     ❌      |
 |       `1.18.x`        |     ✅      |
-|       `1.19.x`        |     ✅      |
+|       `1.19.x`        |     ❌      |
 
 > For dev people : if you have ideas you want to see in this mod, and know how to code them, you can make a pull request
 > on the github page of the mod
 >
 >![github_issues](https://img.shields.io/github/issues/Raphoulfifou/Cyan?color=red&style=for-the-badge&logo=github) ![github_pull_requests](https://img.shields.io/github/issues-pr/Raphoulfifou/Cyan?style=for-the-badge&logo=github)
+
+
+> If you have any question, code or in-game related, you can ask them on
+> my [discord server](https://discord.gg/WmC4dcFZUA)
+>
+> ![discord_server](https://img.shields.io/discord/750243612473819188?color=7289da&label=Dicord&style=for-the-badge)
 
 
 📖 If you launch the mod on server side, it will use the latest version of minecraft, but if you use it on client side,
@@ -24,39 +30,37 @@ it will allow you to play any version of the same number (ex: 1.17, 1.17.1 ...)
 #### ✅ List of commands :
 
     - /bed -> teleport the player to his bed or respawn anchor, depending one which one is the respawn point
-    - /bedof [player_name] -> teleport the player to the bed or respawn anchor of the specified player
-        (only works if the player is online)
     - /surface -> teleport the player to the surface
-
     - /killgrounditems [distance_in_chunks] -> kill the items that are floating on the ground
-        (if a radius is specified, it will only kill items that are within it;
-         ex: /kgi 5 -> radius of 5 chunks
-         If no radius is specified, the default value defined in the config will be used.
-            This value can be changed with /setDistanceToEntitiesKgi)
+        (
+            if a radius is specified, it will only kill items that are within it;
+            ex: /kgi 5 -> radius of 5 chunks
+            If no radius is specified, the default value defined in the config will be used.
+            This value can be changed with /setDistanceToEntitiesKgi
+        )
 
-    -  /Chelp (Cyan help) -> Displays help for this mod
     - /ops -> displays a list of all op players
 
+    - /cyan 
+        [
+            allow [all | bed | kgi | surface] [false | true]
+            minOpLevelExe [all | modifConfig | bed | kgi | surface] [0 | 1 | 2 | 3 | 4]
+            other
+            [
+                useOneLanguage [false | true]
+                distanceToEntitiesKgi [distance_in_chunks]
+            ]
+        ]
 
-    - /allowBed [true|false] -> allows or not the use of /bed
-    - /allowKgi [true|false] -> allows or not the use of /kgi
-    - /allowSurface [true|false] -> allows or not the use of /surface
-
-
-    - /distanceToEntitiesKgi [distance in chunks] -> change the value that is used by default by the /kgi
-    -  /requiredOpLevelKgi [integer between 0 and 4 (both included)] -> change the value of the minimum required OP
-        level used for the /kgi
-
-
-    - /getCyanConfigOptions -> display the values of the different options of the mod in the player's chat
+    - /cyan -> display the values of the different options of the mod in the player's chat (see image below)
 
 ![example_image](https://raw.githubusercontent.com/Raphoulfifou/Cyan/1.18.x/images/getCyanConfigOptions_example.png)
 
 #### ✔️ List of current aliases:
 
-    - /bed -> b
-    - /surface -> s
-    - /killgrounditems -> kgi
+    - /bed -> /b
+    - /surface -> /s
+    - /killgrounditems -> /kgi
 
 > ### ❗ Important :
 >
