@@ -11,7 +11,7 @@ Commands are present in 2 different forms :
 
 ```bash
 cyan
-├── config
+├── config -> If no argument is given after this one, the list of option and their value is send to the chat of the player
 │   ├── allow -> Used to allow or not the usage of the available commands (from the Cyan mod)
 │   │   ├── all [true|false] -> Sets all the 'allow' options to the given value
 │   │   ├── bed [true|false] -> Sets the 'allowBed' option to the given value
@@ -25,10 +25,11 @@ cyan
 │   │   ├── kgi [0|1|2|3|4] -> Sets the 'minOpLevelExekgi' option to the given value
 │   │   └── surface [0|1|2|3|4] -> Sets the 'minOpLevelExeSurface' option to the given value
 │   │
-│   └── other
-│       ├── boolean
+│   └── other -> Used to define different parameters for the other different commands
+│       ├── boolean -> Commands with boolean argument
 │       │   └── useOneLanguage [true|false] -> Sets the 'useOneLanguage' option to the given value
-│       └── integer
+│       │
+│       └── integer -> Commands with integer argument
 │           └── distanceToEntitiesKgi [integer] -> Sets the 'distanceToEntitiesKgi' option to the given value
 │
 └── description
