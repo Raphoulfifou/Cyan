@@ -15,6 +15,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -30,11 +31,10 @@ public class CyanCommands
         dispatcher.register(CommandManager.literal("cyan")
                 .then(CommandManager.literal("allow")
                         .then(CommandManager.argument("allowOption", StringArgumentType.string())
-                                        .suggests(ArgumentSuggestion::getOptions)
-                                        .then(CommandManager.argument("boolValue", BoolArgumentType.bool())
-                                                .executes(CyanCommands::setAllowOption)
-                                        )
-                                //TODO -> give the info on the option .executes(CyanCommands::getInfo)
+                                .suggests(ArgumentSuggestion::getOptions)
+                                .then(CommandManager.argument("boolValue", BoolArgumentType.bool())
+                                        .executes(CyanCommands::setAllowOption)
+                                )
                         )
 
                 )
@@ -65,8 +65,122 @@ public class CyanCommands
                                 )
                         )
                 )
-                .executes(CyanCommands::getConfigOptions)
+                .then(CommandManager.literal("getConfigOptions")
+                        .executes(CyanCommands::getConfigOptions)
+                )
+                .then(CommandManager.literal("description")
+                        .then(CommandManager.argument("optionName", StringArgumentType.string())
+                                .suggests(ArgumentSuggestion::getCommands)
+                                .executes(CyanCommands::getCommandDescription)
+                        )
+                        .executes(CyanCommands::getAllDescriptions)
+                )
         );
+    }
+
+    /**
+     * <p>Called when a player execute the command <code>/cyan getCyanConfigOptions</code></p>
+     * <p>Send a player in the player's chat with all the mod's options and their values</p>
+     *
+     * @throws CommandSyntaxException if the syntaxe of the command isn't correct
+     */
+    public static int getCommandDescription(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerCommandSource source = context.getSource();
+        ServerPlayerEntity player = source.getPlayer();
+
+        String option = StringArgumentType.getString(context, "optionName");
+        Map<String, Map<String, String>> traductions = generateTraductionsMap();
+
+        sendPlayerMessage(player,
+                Formatting.BOLD + traductions.get("commands").get("header").formatted(Formatting.YELLOW + option),
+                Formatting.YELLOW + option,
+                "cyan.message.getDescription.command.header",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+        sendPlayerMessage(player,
+                traductions.get("commands").get(option),
+                null,
+                "cyan.message.getDescription.command.%s".formatted(option),
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command <code>/cyan getCyanConfigOptions</code></p>
+     * <p>Send a player in the player's chat with all the mod's options and their values</p>
+     *
+     * @throws CommandSyntaxException if the syntaxe of the command isn't correct
+     */
+    public static int getAllDescriptions(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerCommandSource source = context.getSource();
+        ServerPlayerEntity player = source.getPlayer();
+
+        String option = StringArgumentType.getString(context, "optionName");
+        Map<String, Map<String, Object>> options = CyanMidnightConfig.generateOptionsMap();
+
+        sendPlayerMessage(player,
+                "\n§6|--> §3Description of the Cyan mod's options :",
+                null,
+                "cyan.message.getDescription.header",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+        for (Map.Entry<String, Map<String, Object>> entry : options.entrySet())
+        {
+            Map<String, Object> key = entry.getValue();
+            for (Map.Entry<String, Object> entry2 : key.entrySet())
+            {
+                Object key2 = entry2.getKey();
+                String currentTrad = null;
+                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER)
+                {
+                    currentTrad = ChatConstants.getOptionTraduction(entry2.getKey());
+                }
+
+                if (entry2.getValue() instanceof Boolean value)
+                {
+                    if (value)
+                    {
+                        sendPlayerMessage(player,
+                                currentTrad,
+                                green + Boolean.toString(value),
+                                "cyan.message.getDescription.%s.%s".formatted(key, key2),
+                                false,
+                                CyanMidnightConfig.useOneLanguage
+                        );
+                    } else
+                    {
+                        sendPlayerMessage(player,
+                                currentTrad,
+                                red + Boolean.toString(value),
+                                "cyan.message.getDescription.%s.%s".formatted(key, key2),
+                                false,
+                                CyanMidnightConfig.useOneLanguage
+                        );
+                    }
+                } else if (entry2.getValue() instanceof Integer value)
+                {
+                    sendPlayerMessage(player,
+                            currentTrad,
+                            gold + Integer.toString(value),
+                            "cyan.message.getDescription.%s.%s".formatted(key, key2),
+                            false,
+                            CyanMidnightConfig.useOneLanguage
+                    );
+                }
+            }
+        }
+
+        return Command.SINGLE_SUCCESS;
     }
 
     /**
