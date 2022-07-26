@@ -77,6 +77,14 @@ public class CyanCommands
                                 )
                                 .executes(CyanCommands::getAllCommandsDescription)
                         )
+                        .then(CommandManager.literal("options")
+                                .then(CommandManager.argument("commandName", StringArgumentType.string())
+                                        .suggests(ArgumentSuggestion::getCommands)
+                                        .executes(CyanCommands::getCommandDescription)
+                                )
+                                .executes(CyanCommands::getAllCommandsDescription)
+                        )
+                        .executes(CyanCommands::getAllDescriptions)
                 )
         );
     }

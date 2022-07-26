@@ -33,4 +33,10 @@ cyan
 │           └── distanceToEntitiesKgi [integer] -> Sets the 'distanceToEntitiesKgi' option to the given value
 │
 └── description
+    ├── commands -> If no argument is given after this one, displays the description for all options
+    │   ├── bed -> Displays the description of the '/bed' command
+    │   ├── kgi -> Displays the description of the '/kgi' command
+    │   └── surface -> Displays the description of the '/surface' command
+    │
+    └── options
 ```
