@@ -2,7 +2,9 @@ package fr.raphoulfifou.cyan.util;
 
 import net.minecraft.util.Formatting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChatConstants
@@ -20,6 +22,7 @@ public class ChatConstants
     public static final Map<String, String> optionsTraductionsMap = new HashMap<>();
     public static final Map<String, String> commandsTraductionsMap = new HashMap<>();
     public static final Map<String, Map<String, String>> traductions = new HashMap<>();
+    public static final List<String> commandsList = new ArrayList<>();
 
     public static void generateOptionsTraductionsMap()
     {
@@ -55,6 +58,16 @@ public class ChatConstants
 
 
         return traductions;
+    }
+
+    public static List<String> generatecCommandsMap()
+    {
+        commandsList.add("bed");
+        commandsList.add("kgi");
+        commandsList.add("surface");
+
+
+        return commandsList;
     }
 
     public static String getOptionTraduction(String optionName)

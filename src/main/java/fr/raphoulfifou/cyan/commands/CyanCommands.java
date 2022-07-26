@@ -18,6 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Map;
 
 import static fr.raphoulfifou.cyan.util.ChatConstants.*;
@@ -69,18 +70,20 @@ public class CyanCommands
                         .executes(CyanCommands::getConfigOptions)
                 )
                 .then(CommandManager.literal("description")
-                        .then(CommandManager.argument("optionName", StringArgumentType.string())
-                                .suggests(ArgumentSuggestion::getCommands)
-                                .executes(CyanCommands::getCommandDescription)
+                        .then(CommandManager.literal("commands")
+                                .then(CommandManager.argument("commandName", StringArgumentType.string())
+                                        .suggests(ArgumentSuggestion::getCommands)
+                                        .executes(CyanCommands::getCommandDescription)
+                                )
+                                .executes(CyanCommands::getAllCommandsDescription)
                         )
-                        .executes(CyanCommands::getAllDescriptions)
                 )
         );
     }
 
     /**
-     * <p>Called when a player execute the command <code>/cyan getCyanConfigOptions</code></p>
-     * <p>Send a player in the player's chat with all the mod's options and their values</p>
+     * <p>Called when a player execute the command <code>/cyan description commands [commandName]</code></p>
+     * <p>Send a message in the player's chat with the description of the command given as argument</p>
      *
      * @throws CommandSyntaxException if the syntaxe of the command isn't correct
      */
@@ -89,7 +92,7 @@ public class CyanCommands
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
 
-        String option = StringArgumentType.getString(context, "optionName");
+        String option = StringArgumentType.getString(context, "commandName");
         Map<String, Map<String, String>> traductions = generateTraductionsMap();
 
         sendPlayerMessage(player,
@@ -107,6 +110,44 @@ public class CyanCommands
                 false,
                 CyanMidnightConfig.useOneLanguage
         );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command <code>/cyan description commands</code></p>
+     * <p>Send a player in the player's chat with all the mod's options and their values</p>
+     *
+     * @throws CommandSyntaxException if the syntaxe of the command isn't correct
+     */
+    public static int getAllCommandsDescription(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerCommandSource source = context.getSource();
+        ServerPlayerEntity player = source.getPlayer();
+
+        Map<String, String> commandsTraductions = generateTraductionsMap().get("commands");
+        List<String> commands = generatecCommandsMap();
+
+        for (int i = 0; i < commands.size(); i++)
+        {
+            String command = commands.get(i);
+            sendPlayerMessage(player,
+                    Formatting.BOLD + commandsTraductions.get("header").formatted(Formatting.YELLOW + command),
+                    Formatting.YELLOW + command,
+                    "cyan.message.getDescription.command.header",
+                    false,
+                    CyanMidnightConfig.useOneLanguage
+            );
+
+            sendPlayerMessage(player,
+                    commandsTraductions.get(command),
+                    null,
+                    "cyan.message.getDescription.command.%s".formatted(command),
+                    false,
+                    CyanMidnightConfig.useOneLanguage
+            );
+        }
 
 
         return Command.SINGLE_SUCCESS;
