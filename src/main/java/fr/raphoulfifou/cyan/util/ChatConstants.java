@@ -23,29 +23,44 @@ public class ChatConstants
     public static final Map<String, String> commandsTraductionsMap = new HashMap<>();
     public static final Map<String, Map<String, String>> traductions = new HashMap<>();
     public static final List<String> commandsList = new ArrayList<>();
+    public static final List<String> optionsTypesList = new ArrayList<>();
 
     public static void generateOptionsTraductionsMap()
     {
-        optionsTraductionsMap.put("allowBed", "§6>> §3/bed allowed : %s");
-        optionsTraductionsMap.put("allowKgi", "§6>> §3/kgi allowed : %s");
-        optionsTraductionsMap.put("allowSurface", "§6>> §3/surface allowed : %s");
+        commandsTraductionsMap.put("header", "\n§lDescription of the §e/%s option :");
 
-        optionsTraductionsMap.put("distanceToEntitiesKgi", "§6>> §3kgi distance (in chunks) : %s");
-        optionsTraductionsMap.put("minOpLevelExe", "§6>> §3Minimu OP level for /kgi : %s");
-        optionsTraductionsMap.put("minOpLevelExeBed", "§6>> §3Minimu OP level for /kgi : %s");
-        optionsTraductionsMap.put("minOpLevelExeKgi", "§6>> §3Minimu OP level for /kgi : %s");
-        optionsTraductionsMap.put("minOpLevelExeSurface", "§6>> §3Minimu OP level for /kgi : %s");
-
-        optionsTraductionsMap.put("useOneLanguage", "§6>> §3Use only one language : %s");
+        optionsTraductionsMap.put("allow", "§eAllow §foptions allows the player to enable or disable the use of a command");
+        optionsTraductionsMap.put("minOpLevelExe", "§eMinOpLevelExe §fallows the player to define which OP level is required to execute the different commands");
+        optionsTraductionsMap.put("other", "The other options have various other functionnalities, that are described by the name of the option itself");
     }
 
     public static void generateCommandsTraductionsMap()
     {
-        commandsTraductionsMap.put("header", "\nDescription of the §e/%s command :");
+        commandsTraductionsMap.put("header", "\n§lDescription of the §e/%s command :");
 
         commandsTraductionsMap.put("bed", "The §e/bed §fcommand teleports you to your bed or respawn anchor");
         commandsTraductionsMap.put("kgi", "The §e/kgi §fcommand kills all item on the ground in a specific radius.\n§e/kgi §fto kill items in the default radius.\n§e/kgi [distance_in_chunks] §fto kill items in the specified radius");
         commandsTraductionsMap.put("surface", "The §e/surface §fcommand teleports you to the highest block located at your XY position");
+    }
+
+    public static List<String> generateCommandsMap()
+    {
+        commandsList.add("bed");
+        commandsList.add("kgi");
+        commandsList.add("surface");
+
+
+        return commandsList;
+    }
+
+    public static List<String> generateOptionsTypesMap()
+    {
+        optionsTypesList.add("allow");
+        optionsTypesList.add("minOpLevelExe");
+        optionsTypesList.add("other");
+
+
+        return optionsTypesList;
     }
 
     public static Map<String, Map<String, String>> generateTraductionsMap()
@@ -58,16 +73,6 @@ public class ChatConstants
 
 
         return traductions;
-    }
-
-    public static List<String> generatecCommandsMap()
-    {
-        commandsList.add("bed");
-        commandsList.add("kgi");
-        commandsList.add("surface");
-
-
-        return commandsList;
     }
 
     public static String getOptionTraduction(String optionName)

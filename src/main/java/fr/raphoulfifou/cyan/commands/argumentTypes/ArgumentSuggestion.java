@@ -5,6 +5,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import fr.raphoulfifou.cyan.config.CyanMidnightConfig;
+import fr.raphoulfifou.cyan.util.ChatConstants;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.ServerCommandSource;
@@ -84,6 +85,21 @@ public final class ArgumentSuggestion
 
         // Return the suggestion handler
         return CommandSource.suggestMatching(exeLevels, builder);
+    }
+
+    /**
+     * @param context the command context
+     * @param builder the suggestion builder
+     *
+     * @return a suggestion with all available allow options
+     */
+    public static CompletableFuture<Suggestions> getOptionsTypes(@NotNull CommandContext<ServerCommandSource> context, @NotNull SuggestionsBuilder builder) throws CommandSyntaxException
+    {
+        List<String> options = ChatConstants.generateOptionsTypesMap();
+
+
+        // Return the suggestion handler
+        return CommandSource.suggestMatching(options, builder);
     }
 
     /**

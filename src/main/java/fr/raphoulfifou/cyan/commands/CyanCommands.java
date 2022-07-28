@@ -78,15 +78,87 @@ public class CyanCommands
                                 .executes(CyanCommands::getAllCommandsDescription)
                         )
                         .then(CommandManager.literal("options")
-                                .then(CommandManager.argument("commandName", StringArgumentType.string())
-                                        .suggests(ArgumentSuggestion::getCommands)
-                                        .executes(CyanCommands::getCommandDescription)
+                                .then(CommandManager.argument("optionType", StringArgumentType.string())
+                                        .suggests(ArgumentSuggestion::getOptionsTypes)
+                                        .executes(CyanCommands::getOptionTypeDescription)
                                 )
-                                .executes(CyanCommands::getAllCommandsDescription)
+                                .executes(CyanCommands::getAllOptionTypesDescription)
                         )
                         .executes(CyanCommands::getAllDescriptions)
                 )
         );
+    }
+
+    /**
+     * <p>Called when a player execute the command <code>/cyan description options [optionType]</code></p>
+     * <p>Send a message in the player's chat with the description of the option type given as argument</p>
+     * <p>optionType can be [allow | minOpLevelExe | other]</p>
+     *
+     * @throws CommandSyntaxException if the syntaxe of the command isn't correct
+     */
+    public static int getOptionTypeDescription(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerCommandSource source = context.getSource();
+        ServerPlayerEntity player = source.getPlayer();
+
+        String option = StringArgumentType.getString(context, "optionType");
+        Map<String, Map<String, String>> traductions = generateTraductionsMap();
+
+        sendPlayerMessage(player,
+                Formatting.BOLD + traductions.get("options").get("header").formatted(Formatting.YELLOW + option),
+                Formatting.YELLOW + option,
+                "cyan.message.getDescription.options.header",
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+        sendPlayerMessage(player,
+                traductions.get("commands").get(option),
+                null,
+                "cyan.message.getDescription.options.%s".formatted(option),
+                false,
+                CyanMidnightConfig.useOneLanguage
+        );
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * <p>Called when a player execute the command <code>/cyan description commands</code></p>
+     * <p>Send a player in the player's chat with all the mod's options and their values</p>
+     *
+     * @throws CommandSyntaxException if the syntaxe of the command isn't correct
+     */
+    public static int getAllOptionTypesDescription(@NotNull CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+    {
+        ServerCommandSource source = context.getSource();
+        ServerPlayerEntity player = source.getPlayer();
+
+        Map<String, String> optionsTraductions = generateTraductionsMap().get("options");
+        List<String> optionTypes = generateOptionsTypesMap();
+
+        for (String option : optionTypes)
+        {
+            sendPlayerMessage(player,
+                    Formatting.BOLD + optionsTraductions.get("header").formatted(Formatting.YELLOW + option),
+                    Formatting.YELLOW + option,
+                    "cyan.message.getDescription.options.header",
+                    false,
+                    CyanMidnightConfig.useOneLanguage
+            );
+
+            sendPlayerMessage(player,
+                    optionsTraductions.get(option),
+                    null,
+                    "cyan.message.getDescription.options.%s".formatted(option),
+                    false,
+                    CyanMidnightConfig.useOneLanguage
+            );
+        }
+
+
+        return Command.SINGLE_SUCCESS;
     }
 
     /**
@@ -135,7 +207,7 @@ public class CyanCommands
         ServerPlayerEntity player = source.getPlayer();
 
         Map<String, String> commandsTraductions = generateTraductionsMap().get("commands");
-        List<String> commands = generatecCommandsMap();
+        List<String> commands = generateCommandsMap();
 
         for (String command : commands)
         {

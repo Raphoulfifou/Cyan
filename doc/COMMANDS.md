@@ -39,4 +39,7 @@ cyan
     │   └── surface -> Displays the description of the '/surface' command
     │
     └── options
+        ├── allow -> Displays the description of the 'allow' options
+        ├── minOpLevelExe -> Displays the description of the 'minOpLevelExe' options
+        └── other -> Displays the description of the 'other' options
 ```
