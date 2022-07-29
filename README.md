@@ -12,7 +12,7 @@
 
 
 > If you have any question, code or in-game related, you can ask them on
-> my [discord server](https://discord.gg/WmC4dcFZUA)
+> my [discord server](https://discord.gg/JJMnf62Kuj)
 >
 > ![discord_server](https://img.shields.io/discord/750243612473819188?color=7289da&label=Dicord&style=for-the-badge)
 
