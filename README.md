@@ -22,30 +22,7 @@ it will allow you to play any version of the same number (ex: 1.17, 1.17.1 ...)
 
 #### ✅ List of commands :
 
-    - /bed -> teleport the player to his bed or respawn anchor, depending one which one is the respawn point
-    - /surface -> teleport the player to the surface
-    - /killgrounditems [distance_in_chunks] -> kill the items that are floating on the ground
-        (
-            if a radius is specified, it will only kill items that are within it;
-            ex: /kgi 5 -> radius of 5 chunks
-            If no radius is specified, the default value defined in the config will be used.
-            This value can be changed with /setDistanceToEntitiesKgi
-        )
-
-    - /ops -> displays a list of all op players
-
-    - /cyan 
-        [
-            allow [all | bed | kgi | surface] [false | true]
-            minOpLevelExe [all | modifConfig | bed | kgi | surface] [0 | 1 | 2 | 3 | 4]
-            other
-            [
-                useOneLanguage [false | true]
-                distanceToEntitiesKgi [distance_in_chunks]
-            ]
-        ]
-
-    - /cyan -> display the values of the different options of the mod in the player's chat (see image below)
+see [commands documentation](doc/COMMANDS.md)
 
 ![example_image](https://raw.githubusercontent.com/Raphoulfifou/Cyan/1.18.x/images/getCyanConfigOptions_example.png)
 
